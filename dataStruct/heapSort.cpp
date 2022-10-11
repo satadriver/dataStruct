@@ -1,9 +1,9 @@
 
-/*
+
 #include <stdio.h>
 #include <stdlib.h>
 
-void swap(int *a, int *b) {
+void swap(int* a, int* b) {
 	int temp = *b;
 	*b = *a;
 	*a = temp;
@@ -39,19 +39,10 @@ void heap_sort(int arr[], int len) {
 }
 
 
-int heaptest() {
-	int arr[] = { 3, 5, 3, 0, 8, 6, 1, 5, 8, 6, 2, 4, 9, 4, 7, 0, 1, 8, 9, 7, 3, 1, 2, 5, 9, 7, 4, 0, 2, 6 };
-	int len = (int) sizeof(arr) / sizeof(*arr);
-	heap_sort(arr, len);
-	int i;
-	for (i = 0; i < len; i++)
-		printf("%d ", arr[i]);
-	printf("\n");
-	return 0;
-}
-*/
 
-void swap(int &i, int &k) {
+
+
+void swap(int& i, int& k) {
 	int tmp = k;
 	k = i;
 	i = tmp;
@@ -60,9 +51,9 @@ void swap(int &i, int &k) {
 
 void heapAdjust(int arr[], int num, int arrsize) {
 	int pos = num;
-	for (int j = 2*num + 1;j < arrsize;j = j*2 + 1)
+	for (int j = 2 * num + 1; j < arrsize; j = j * 2 + 1)
 	{
-		if (j < arrsize-1 && arr[j] < arr[j + 1])
+		if (j < arrsize - 1 && arr[j] < arr[j + 1])
 		{
 			j++;
 		}
@@ -83,7 +74,7 @@ void heapAdjust(int arr[], int num, int arrsize) {
 void heapSort2(int arr[], int arrsize) {
 	for (int i = arrsize / 2 - 1; i >= 0; i--)		// n/2-1 is previous root dot
 	{
-		heapAdjust(arr,  i, arrsize);
+		heapAdjust(arr, i, arrsize);
 	}
 
 	for (int i = arrsize - 1; i >= 0; i--)
@@ -118,12 +109,12 @@ void heapify(int arr[], int arrsize, int num) {
 //7	 8    9  10   11 12   13 14
 
 void heapSort(int arr[], int arrsize) {
-	for (int i = arrsize /2-1; i >= 0; i --)		// n/2-1 is previous root dot
+	for (int i = arrsize / 2 - 1; i >= 0; i--)		// n/2-1 is previous root dot
 	{
 		heapify(arr, arrsize, i);
 	}
 
-	for (int i = arrsize - 1;i >= 0;i--)
+	for (int i = arrsize - 1; i >= 0; i--)
 	{
 		swap(arr[0], arr[i]);
 		heapify(arr, i, 0);

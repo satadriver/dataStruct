@@ -44,8 +44,6 @@ int fastSort(int data[], int left, int right) {
 	int low = left;
 	int high = right;
 
-
-
 	while (low < high)
 	{
 		while (low < high)
