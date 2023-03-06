@@ -75,7 +75,9 @@ int main(int argc, char** argv)
 
 		QueryPerformanceCounter(&startli);
 
-		heapSort(arr, elements_counter);				//279254
+		//heapSort(arr, elements_counter);				//279254
+
+		heap_sort(arr, (int)elements_counter);
 
 		QueryPerformanceCounter(&endli);
 
@@ -180,7 +182,7 @@ int main(int argc, char** argv)
 
 
 	unsigned __int64 shellSortTimes = 0;
-	int delta[] = { MAX_ARRAY_SIZE / 1024,MAX_ARRAY_SIZE / 32 ,1 };
+	int delta[] = { MAX_ARRAY_SIZE / 0x1000,MAX_ARRAY_SIZE / 64 ,1 };
 	for (int i = 0; i < TEST_TIMES; i++)
 	{
 		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
@@ -196,12 +198,28 @@ int main(int argc, char** argv)
 	}
 	shellSortTimes = shellSortTimes / TEST_TIMES;
 
+<<<<<<< HEAD
 	char szout[1024];
 	wsprintfA(szout, " shellSort:%I64d\r\n binaryInsertSort:%I64d\r\n bubbleSort:%I64d\r\n "
 		"insertSort:%I64d\r\n heapSort:%I64d\r\n fastSort:%I64d\r\n selectionSort:%I64d\r\n",
 		shellSortTimes, binaryInsertSortTimes, bubbleSortTimes, insertSortTimes, heapSortTimes, fastSortTimes, selectionSortTimes);
 
 	printf(szout);
+=======
+	char szinfo[1024];
+	wsprintfA(szinfo, " shellSort:%I64u\r\n binaryInsertSort:%I64u\r\n bubbleSort:%I64u\r\n "
+		"insertSort:%I64u\r\n heapSort:%I64u\r\n fastSort:%I64u\r\n selectionSort:%I64u\r\n",
+		shellSortTimes, binaryInsertSortTimes, bubbleSortTimes, insertSortTimes, heapSortTimes, fastSortTimes, selectionSortTimes);
+	//printf(szinfo);
+	cout << szinfo;
+	// 	printf(" shellSort:%I64u\r\n binaryInsertSort:%I64u\r\n bubbleSort:%I64u\r\n "
+	// 		"insertSort:%I64u\r\n heapSort:%I64u\r\n fastSort:%I64u\r\n selectionSort:%I64u\r\n",
+	// 		shellSortTimes, binaryInsertSortTimes, bubbleSortTimes, insertSortTimes, heapSortTimes, fastSortTimes, selectionSortTimes);
+
+		// 	printf(" shellSort:%I64d\r\n binaryInsertSort:%I64d\r\n bubbleSort:%I64d\r\n "
+		// 		"insertSort:%I64d\r\n heapSort:%I64d\r\n quickSort:%I64d\r\n fastSort:%I64d\r\n selectionSort:%I64d\r\n",
+		// 		shellSortTimes, binaryInsertSortTimes, bubbleSortTimes, insertSortTimes, heapSortTimes, quickSortTimes, fastSortTimes, selectionSortTimes);
+>>>>>>> 7c4ddd9abaf9ac1b85f7d4600ca359491784cd7f
 
 	ret = getchar();
 
