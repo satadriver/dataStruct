@@ -23,7 +23,7 @@
 using namespace std;
 
 
-#define MAX_ARRAY_SIZE 0x4000
+#define MAX_ARRAY_SIZE 0x1000
 
 
 #define TEST_TIMES  10
@@ -196,14 +196,12 @@ int main(int argc, char** argv)
 	}
 	shellSortTimes = shellSortTimes / TEST_TIMES;
 
-
-	printf(" shellSort:%I64d\r\n binaryInsertSort:%I64d\r\n bubbleSort:%I64d\r\n "
+	char szout[1024];
+	wsprintfA(szout, " shellSort:%I64d\r\n binaryInsertSort:%I64d\r\n bubbleSort:%I64d\r\n "
 		"insertSort:%I64d\r\n heapSort:%I64d\r\n fastSort:%I64d\r\n selectionSort:%I64d\r\n",
 		shellSortTimes, binaryInsertSortTimes, bubbleSortTimes, insertSortTimes, heapSortTimes, fastSortTimes, selectionSortTimes);
 
-	// 	printf(" shellSort:%I64d\r\n binaryInsertSort:%I64d\r\n bubbleSort:%I64d\r\n "
-	// 		"insertSort:%I64d\r\n heapSort:%I64d\r\n quickSort:%I64d\r\n fastSort:%I64d\r\n selectionSort:%I64d\r\n",
-	// 		shellSortTimes, binaryInsertSortTimes, bubbleSortTimes, insertSortTimes, heapSortTimes, quickSortTimes, fastSortTimes, selectionSortTimes);
+	printf(szout);
 
 	ret = getchar();
 
@@ -213,8 +211,8 @@ int main(int argc, char** argv)
 
 	//ret = fibonacci(7);
 
-	int fbarray[] = { 0, 16, 24, 35, 47, 59, 62, 73, 132 };
 	int key = 132;
+
 	//int index = fibonacciSearch(fbarray, 9, key);
 
 	//ret = ackerman(6, 7);

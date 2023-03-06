@@ -1,0 +1,7 @@
+﻿  test.cpp
+D:\project\dataStruct\test\test.cpp(118,1): warning C4326: “main”的返回类型应为“int”而非“void”
+  正在生成代码
+  Previous IPDB not found, fall back to full compilation.
+  All 73 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  test.vcxproj -> D:\project\dataStruct\x64\Release\test.exe
