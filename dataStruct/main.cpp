@@ -198,14 +198,7 @@ int main(int argc, char** argv)
 	}
 	shellSortTimes = shellSortTimes / TEST_TIMES;
 
-<<<<<<< HEAD
-	char szout[1024];
-	wsprintfA(szout, " shellSort:%I64d\r\n binaryInsertSort:%I64d\r\n bubbleSort:%I64d\r\n "
-		"insertSort:%I64d\r\n heapSort:%I64d\r\n fastSort:%I64d\r\n selectionSort:%I64d\r\n",
-		shellSortTimes, binaryInsertSortTimes, bubbleSortTimes, insertSortTimes, heapSortTimes, fastSortTimes, selectionSortTimes);
 
-	printf(szout);
-=======
 	char szinfo[1024];
 	wsprintfA(szinfo, " shellSort:%I64u\r\n binaryInsertSort:%I64u\r\n bubbleSort:%I64u\r\n "
 		"insertSort:%I64u\r\n heapSort:%I64u\r\n fastSort:%I64u\r\n selectionSort:%I64u\r\n",
@@ -216,10 +209,7 @@ int main(int argc, char** argv)
 	// 		"insertSort:%I64u\r\n heapSort:%I64u\r\n fastSort:%I64u\r\n selectionSort:%I64u\r\n",
 	// 		shellSortTimes, binaryInsertSortTimes, bubbleSortTimes, insertSortTimes, heapSortTimes, fastSortTimes, selectionSortTimes);
 
-		// 	printf(" shellSort:%I64d\r\n binaryInsertSort:%I64d\r\n bubbleSort:%I64d\r\n "
-		// 		"insertSort:%I64d\r\n heapSort:%I64d\r\n quickSort:%I64d\r\n fastSort:%I64d\r\n selectionSort:%I64d\r\n",
-		// 		shellSortTimes, binaryInsertSortTimes, bubbleSortTimes, insertSortTimes, heapSortTimes, quickSortTimes, fastSortTimes, selectionSortTimes);
->>>>>>> 7c4ddd9abaf9ac1b85f7d4600ca359491784cd7f
+
 
 	ret = getchar();
 
