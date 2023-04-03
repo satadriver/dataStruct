@@ -158,6 +158,7 @@
     <ClCompile Include="kmp.cpp" />
     <ClCompile Include="list.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MergeSort.cpp" />
     <ClCompile Include="primeNumber.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="queue.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="insertSort.h" />
     <ClInclude Include="kmp.h" />
     <ClInclude Include="list.h" />
+    <ClInclude Include="MergeSort.h" />
     <ClInclude Include="primeNumber.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="queue.h" />

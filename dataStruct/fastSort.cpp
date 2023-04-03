@@ -101,7 +101,7 @@ int fastSort(int data[], int left, int right) {
 
 	data[empty] = tmp;
 
-	fastSort(data, left, low);
+	fastSort(data, left, low - 1);
 	fastSort(data, low + 1, right);
 
 	return 0;

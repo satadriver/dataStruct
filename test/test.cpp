@@ -2,6 +2,79 @@
 #include <string>
 #include <stdio.h>
 
+
+#include <windows.h>
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+struct SaveContext
+{
+	string strNtPath;
+	string strDosDevice;
+};
+
+typedef vector<SaveContext> svrVector;
+
+void RestoreDevice(SaveContext& Context);
+
+int mymain(void)
+{
+	//读磁盘配置并排除C盘
+	DWORD dwDisks = GetLogicalDrives() & 0xfffffffb;
+
+	svrVector NtDevices;
+
+	CHAR chDosDevice[8] = { 0 };
+
+	*(WORD*)chDosDevice = ':A';
+
+	CHAR chNtPath[MAX_PATH] = { 0 };
+
+	for (int Mask = 1; Mask; Mask <<= 1, chDosDevice[0]++)
+	{
+		if (dwDisks & Mask)
+		{
+			QueryDosDeviceA(chDosDevice, chNtPath, MAX_PATH);
+
+			SaveContext Context;
+			Context.strDosDevice = chDosDevice;
+			Context.strNtPath = chNtPath;
+
+			//先保存符号名和设备之间的关系
+			NtDevices.push_back(Context);
+
+			cout << Context.strDosDevice << "<--->" << Context.strNtPath << endl;
+
+			//除了C:以外其它的盘符正一个一个的不见了
+			//DefineDosDeviceA(DDD_REMOVE_DEFINITION, Context.strDosDevice.c_str(), NULL);
+		}
+	}
+
+	//现在打开"我的电脑"看看
+	system("pause");
+
+	//现在隐藏的盘符又出现了,呵呵
+	for_each(NtDevices.begin(), NtDevices.end(), RestoreDevice);
+
+	ExitProcess(0);
+
+	return 0;
+}
+
+void RestoreDevice(SaveContext& Context)
+{
+	int result = DefineDosDeviceA(DDD_RAW_TARGET_PATH, Context.strNtPath.c_str(), Context.strDosDevice.c_str());
+
+	result = DefineDosDeviceA(DDD_RAW_TARGET_PATH, Context.strDosDevice.c_str(), Context.strNtPath.c_str());
+	return;
+}
+
+
+
 void getSystemName()
 {
 	std::string vname;
@@ -116,6 +189,10 @@ void getSystemName()
 
 void main()
 {
+	mymain();
+
+	WCHAR strpath[MAX_PATH];
+	QueryDosDeviceW(L"c:", strpath, MAX_PATH);
 	getSystemName();
 	system("pause");
 }
