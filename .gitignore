@@ -3,6 +3,7 @@
 *.idb
 *.pdb
 
+*.opendb
 
 # Compiled Object files
 *.slo

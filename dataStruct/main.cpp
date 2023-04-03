@@ -222,13 +222,8 @@ int main(int argc, char** argv)
 
 	//ret = fibonacci(7);
 
-<<<<<<< HEAD
 	//int fbarray[] = { 0, 16, 24, 35, 47, 59, 62, 73, 132 };
 	//int key = 132;
-=======
-	int key = 132;
-
->>>>>>> d47d3ef519f590a7cba9bf3b4a482afe3714f321
 	//int index = fibonacciSearch(fbarray, 9, key);
 
 	//ret = ackerman(6, 7);
