@@ -31,6 +31,9 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+	DWORD totol = 0;
+	hanoi(1, 2, 3, 16, &totol);
+
 	int ret = 0;
 
 	int* testarray = new int[MAX_ARRAY_SIZE];
@@ -220,23 +223,19 @@ int main(int argc, char** argv)
 
 	//ret = fibonacci(7);
 
-	int fbarray[] = { 0, 16, 24, 35, 47, 59, 62, 73, 132 };
-	int key = 132;
+	//int fbarray[] = { 0, 16, 24, 35, 47, 59, 62, 73, 132 };
+	//int key = 132;
 	//int index = fibonacciSearch(fbarray, 9, key);
 
 	//ret = ackerman(6, 7);
 
 	testkmp();
 
-	hannuo(7, 'A', 'B', 'C');
-
 	ret = KmpSearch("abcaabcbabcd", "bcd");
-
-	ret = indexstr("hello how are you? find thank you,and you? i'm fine too", " how", 0);
 
 	ret = composite(100);
 
-	ret = primeNumber(10);
+	ret = primeNumber(100);
 
 	return 0;
 }
