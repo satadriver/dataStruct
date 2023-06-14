@@ -20,10 +20,13 @@ int factorial(int n) {
 int fibonacci(unsigned int n) {
 	if (n == 0)
 	{
+		
 		return 0;
+
 	}
 	else if (n == 1)
 	{
+		
 		return 1;
 	}
 	else {
@@ -35,14 +38,20 @@ int fibonacci(unsigned int n) {
 int ackerman(unsigned int m, unsigned int n) {
 	if (m == 0)
 	{
+		printf("%d\r\n",n+1);
 		return n + 1;
 	}
 	else if (n == 0)
 	{
-		return ackerman(m - 1, 1);
+		
+		int res = ackerman(m - 1, 1);
+		printf("%d\r\n", res);
+		return res;
 	}
 	else {
-		return ackerman(m - 1, ackerman(m, n - 1));
+		int res= ackerman(m - 1, ackerman(m, n - 1));
+		printf("%d\r\n", res);
+		return res;
 	}
 }
 

@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\project\dataStruct\x64\Release\hollysys_udp.exe</FullPath>
+      <FullPath>D:\work\dataStruct\x64\Release\hollysys_udp.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

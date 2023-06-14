@@ -1,0 +1,38 @@
+﻿  binaryInsertSort.cpp
+  BinarySearch.cpp
+  bubbleSort.cpp
+  composite.cpp
+  crc.cpp
+  fastSort.cpp
+  fibonacciSearch.cpp
+  heapSort.cpp
+  insertSort.cpp
+  kmp.cpp
+D:\work\dataStruct\dataStruct\kmp.cpp(7,22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+D:\work\dataStruct\dataStruct\kmp.cpp(36,22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+D:\work\dataStruct\dataStruct\kmp.cpp(37,22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+D:\work\dataStruct\dataStruct\kmp.cpp(113,22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+D:\work\dataStruct\dataStruct\kmp.cpp(134,22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+D:\work\dataStruct\dataStruct\kmp.cpp(135,22): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  list.cpp
+  main.cpp
+  MergeSort.cpp
+  primeNumber.cpp
+  MyString.cpp
+D:\work\dataStruct\dataStruct\MyString.cpp(5,20): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+D:\work\dataStruct\dataStruct\MyString.cpp(6,20): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  queue.cpp
+  recursion.cpp
+  SelectionSort.cpp
+  shellSort.cpp
+  stack.cpp
+  正在编译...
+  template.cpp
+  transNumber.cpp
+  treeSearch.cpp
+  正在生成代码
+  30 of 31 functions (96.8%) were compiled, the rest were copied from previous compilation.
+    14 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  dataStruct.vcxproj -> D:\work\dataStruct\x64\Release\dataStruct.exe

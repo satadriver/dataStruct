@@ -1,0 +1,10 @@
+﻿  main.cpp
+D:\work\dataStruct\emerson\main.cpp(74,16): warning C4309: “=”: 截断常量值
+D:\work\dataStruct\emerson\main.cpp(75,16): warning C4309: “=”: 截断常量值
+D:\work\dataStruct\emerson\main.cpp(77,16): warning C4309: “=”: 截断常量值
+D:\work\dataStruct\emerson\main.cpp(78,16): warning C4309: “=”: 截断常量值
+  正在生成代码
+  Previous IPDB not found, fall back to full compilation.
+  All 4 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  emerson.vcxproj -> D:\work\dataStruct\Release\emerson.exe

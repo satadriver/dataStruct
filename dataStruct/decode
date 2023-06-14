@@ -1,0 +1,673 @@
+CSDN首页
+博客
+下载
+学习
+社区
+GitCode
+InsCode
+LZSS
+ 搜索
+
+会员中心 
+消息
+历史
+创作中心
+发布
+无损压缩算法专题——LZSS算法实现
+
+金小庭
+
+于 2019-12-28 12:17:44 发布
+
+5163
+ 收藏 31
+分类专栏： 无损压缩算法专题 文章标签： LZSS 无损压缩
+版权
+
+无损压缩算法专题
+专栏收录该内容
+4 篇文章16 订阅
+订阅专栏
+一、前言
+本文是基于我的上一篇博客《无损压缩算法专题——无损压缩算法介绍》的基础上来实现的，博客链接https://blog.csdn.net/qq_34254642/article/details/103651815，这一篇当中实现基本的LZSS算法功能，先不做改进，所以算法效率比较低，但是便于理解。写了Python和C两个版本，两种语言的代码结构是一样的，代码中都有详尽的注释。实现了对任意文件的压缩和解压功能。
+
+ 
+
+二、LZSS算法实现
+Python实现
+
+import ctypes
+import os
+ 
+class LZSS():
+    def __init__(self, preBufSizeBits):
+        self.threshold = 2  #长度大于等于2的匹配串才有必要压缩
+        self.preBufSizeBits = preBufSizeBits  #前向缓冲区占用的比特位
+        self.windowBufSizeBits = 16 - self.preBufSizeBits   #滑动窗口占用的比特位
+ 
+        self.preBufSize = (1 << self.preBufSizeBits) - 1 + self.threshold #通过占用的比特位计算缓冲区大小
+        self.windowBufSize = (1 << self.windowBufSizeBits) - 1 + self.threshold   #通过占用的比特位计算滑动窗口大小
+ 
+        self.preBuf = b''   #前向缓冲区
+        self.windowBuf = b''    #滑动窗口
+        self.matchString = b''  #匹配串
+        self.matchIndex = 0     #滑动窗口匹配串起始下标
+ 
+    #文件压缩
+    def LZSS_encode(self, readfilename, writefilename):
+ 
+        fread = open(readfilename, "rb")
+        fwrite = open(writefilename, "wb")
+        restorebuff = b''   #待写入的数据缓存区，满一组数据写入一次文件
+        itemnum = 0     #8个项目为一组，用来统计当前项目数
+        signbits = 0    #标记字节
+ 
+        self.preBuf = fread.read(self.preBufSize)   #读取数据填满前向缓冲区
+ 
+        # 前向缓冲区没数据可操作了即为压缩结束
+        while self.preBuf != b'':
+            self.matchString = b''
+            self.matchIndex = -1
+            #在滑动窗口中寻找最长的匹配串
+            for i in range(self.threshold, len(self.preBuf) + 1):
+                index = self.windowBuf.find(self.preBuf[0:i])
+                if index != -1:
+                    self.matchString = self.preBuf[0:i]
+                    self.matchIndex = index
+                else:
+                    break
+            #如果没找到匹配串或者匹配长度为1，直接输出原始数据
+            if self.matchIndex == -1:
+                self.matchString = self.preBuf[0:1]
+                restorebuff += self.matchString
+            else:
+                restorebuff += bytes(ctypes.c_uint16(self.matchIndex * (1 << self.preBufSizeBits) + len(self.matchString) - self.threshold))
+                signbits += (1 << (7 - itemnum))
+            #操作完一个项目+1
+            itemnum += 1
+            #项目数达到8了，说明做完了一组压缩，将这一组数据写入文件
+            if itemnum >= 8:
+                writebytes = bytes(ctypes.c_uint8(signbits)) + restorebuff
+                fwrite.write(writebytes);
+                itemnum = 0
+                signbits = 0
+                restorebuff = b''
+ 
+            self.preBuf = self.preBuf[len(self.matchString):]  #将刚刚匹配过的数据移出前向缓冲区
+            self.windowBuf += self.matchString  #将刚刚匹配过的数据加入滑动窗口
+            if len(self.windowBuf) > self.windowBufSize:  #将多出的数据从前面开始移出滑动窗口
+                self.windowBuf = self.windowBuf[(len(self.windowBuf) - self.windowBufSize):]
+ 
+            self.preBuf += fread.read(self.preBufSize - len(self.preBuf))  #读取数据补充前向缓冲区
+ 
+        if restorebuff != b'':  #文件最后可能不满一组数据量，直接写到文件里
+            writebytes = bytes(ctypes.c_uint8(signbits)) + restorebuff
+            fwrite.write(writebytes);
+ 
+        fread.close()
+        fwrite.close()
+ 
+        return os.path.getsize(writefilename)
+ 
+    #文件解压
+    def LZSS_decode(self, readfilename, writefilename):
+        fread = open(readfilename, "rb")
+        fwrite = open(writefilename, "wb")
+ 
+        self.windowBuf = b''
+        self.preBuf = fread.read(1)  #先读一个标记字节以确定接下来怎么解压数据
+ 
+        while self.preBuf != b'':
+            for i in range(8):  #8个项目为一组进行解压
+                # 从标记字节的最高位开始解析，0代表原始数据，1代表(下标，匹配数)解析
+                if self.preBuf[0] & (1 << (7 - i)) == 0:
+                    temp = fread.read(1)
+                    fwrite.write(temp)
+                    self.windowBuf += temp
+                else:
+                    temp = fread.read(2)
+                    start = ((temp[0] + temp[1] * 256) // (1 << self.preBufSizeBits))  #取出高位的滑动窗口匹配串下标
+                    end = start + temp[0] % (1 << self.preBufSizeBits) + self.threshold  #取出低位的匹配长度
+                    fwrite.write(self.windowBuf[start:end])  #将解压出的数据写入文件
+                    self.windowBuf += self.windowBuf[start:end]  #将解压处的数据同步写入到滑动窗口
+ 
+                if len(self.windowBuf) > self.windowBufSize:  #限制滑动窗口大小
+                    self.windowBuf = self.windowBuf[(len(self.windowBuf) - self.windowBufSize):]
+ 
+            self.preBuf = fread.read(1)  #读取下一组数据的标志字节
+ 
+        fread.close()
+        fwrite.close()
+ 
+if __name__ == '__main__':
+    Demo = LZSS(7)
+    Demo.LZSS_encode("115.log", "encode")
+    Demo.LZSS_decode("encode", "decode")
+ 
+ 
+ 
+ 
+
+C实现
+
+#include <string.h>
+#include <stdio.h>
+ 
+#define BYTE unsigned char
+#define WORD unsigned short
+#define DWORD unsigned int
+ 
+#define TRUE 1
+#define FALSE 0
+ 
+BYTE bThreshold;  //压缩阈值、长度大于等于2的匹配串才有必要压缩
+ 
+BYTE bPreBufSizeBits;  //前向缓冲区占用的比特位
+BYTE bWindowBufSizeBits;  //滑动窗口占用的比特位
+ 
+WORD wPreBufSize;  //通过占用的比特位计算缓冲区大小
+WORD wWindowBufSize;  //通过占用的比特位计算滑动窗口大小
+ 
+BYTE bPreBuf[1024];  //前向缓冲区
+BYTE bWindowBuf[8192];  //滑动窗口
+BYTE bMatchString[1024];  //匹配串
+WORD wMatchIndex;  //滑动窗口匹配串起始下标
+ 
+BYTE FindSameString(BYTE *pbStrA, WORD wLenA, BYTE *pbStrB, WORD wLenB, WORD *pwMatchIndex);  //查找匹配串
+DWORD LZSS_encode(char *pbReadFileName, char *pbWriteFileName);  //文件压缩
+DWORD LZSS_decode(char *pbReadFileName, char *pbWriteFileName);  //文件解压
+ 
+int main()
+{
+	bThreshold = 2;
+	bPreBufSizeBits = 6;
+	bWindowBufSizeBits = 16 - bPreBufSizeBits;
+	wPreBufSize = ((WORD)1 << bPreBufSizeBits) - 1 + bThreshold;
+	wWindowBufSize = ((WORD)1 << bWindowBufSizeBits) - 1 + bThreshold;
+ 
+	LZSS_encode("115.log", "encode");
+	LZSS_decode("encode", "decode");
+	return 0;
+}
+ 
+BYTE FindSameString(BYTE *pbStrA, WORD wLenA, BYTE *pbStrB, WORD wLenB, WORD *pwMatchIndex)
+{
+	WORD i, j;
+ 
+	for (i = 0; i < wLenA; i++)
+	{
+		if ((wLenA - i) < wLenB)
+		{
+			return FALSE;
+		}
+ 
+		if (pbStrA[i] == pbStrB[0])
+		{
+			for (j = 1; j < wLenB; j++)
+			{
+				if (pbStrA[i + j] != pbStrB[j])
+				{
+					break;
+				}
+			}
+ 
+			if (j == wLenB)
+			{
+				*pwMatchIndex = i;
+				return TRUE;
+			}
+		}
+	}
+	return FALSE;
+}
+ 
+DWORD LZSS_encode(char *pbReadFileName, char *pbWriteFileName)
+{
+	WORD i, j;
+	WORD wPreBufCnt = 0;
+	WORD wWindowBufCnt = 0;
+	WORD wMatchStringCnt = 0;
+	BYTE bRestoreBuf[17] = { 0 };
+	BYTE bRestoreBufCnt = 1;
+	BYTE bItemNum = 0;
+	FILE *pfRead = fopen(pbReadFileName, "rb");
+	FILE *pfWrite = fopen(pbWriteFileName, "wb");
+ 
+	//前向缓冲区没数据可操作了即为压缩结束
+	while (wPreBufCnt += fread(&bPreBuf[wPreBufCnt], 1, wPreBufSize - wPreBufCnt, pfRead))
+	{
+		wMatchStringCnt = 0;  //刚开始没有匹配到数据
+		wMatchIndex = 0xFFFF;  //初始化一个最大值，表示没匹配到
+ 
+		for (i = bThreshold; i <= wPreBufCnt; i++)  //在滑动窗口中寻找最长的匹配串
+		{
+			if (TRUE == FindSameString(bWindowBuf, wWindowBufCnt, bPreBuf, i, &wMatchIndex))
+			{
+				memcpy(bMatchString, &bWindowBuf[wMatchIndex], i);
+				wMatchStringCnt = i;
+			}
+			else
+			{
+				break;
+			}
+		}
+ 
+		//如果没找到匹配串或者匹配长度为1，直接输出原始数据
+		if ((0xFFFF == wMatchIndex))
+		{
+			wMatchStringCnt = 1;
+			bMatchString[0] = bPreBuf[0];
+			bRestoreBuf[bRestoreBufCnt++] = bPreBuf[0];
+		}
+		else
+		{
+			j = (wMatchIndex << bPreBufSizeBits) + wMatchStringCnt - bThreshold;
+			bRestoreBuf[bRestoreBufCnt++] = (BYTE)j;
+			bRestoreBuf[bRestoreBufCnt++] = (BYTE)(j >> 8);
+			bRestoreBuf[0] |= (BYTE)1 << (7 - bItemNum);
+		}
+ 
+		bItemNum += 1;  //操作完一个项目+1
+ 
+		if (bItemNum >= 8)  //项目数达到8了，说明做完了一组压缩，将这一组数据写入文件，同时清空缓存
+		{
+			fwrite(bRestoreBuf, 1, bRestoreBufCnt, pfWrite);
+			bItemNum = 0;
+			memset(bRestoreBuf, 0, sizeof(bRestoreBuf));
+			bRestoreBufCnt = 1;
+		}
+ 
+		//将刚刚匹配过的数据移出前向缓冲区
+		for (i = 0; i < (wPreBufCnt - wMatchStringCnt); i++)
+		{
+			bPreBuf[i] = bPreBuf[i + wMatchStringCnt];
+		}
+		wPreBufCnt -= wMatchStringCnt;
+ 
+		//如果滑动窗口将要溢出，先提前把前面的部分数据移出窗口
+		if ((wWindowBufCnt + wMatchStringCnt) >  wWindowBufSize)
+		{
+			j = ((wWindowBufCnt + wMatchStringCnt) - wWindowBufSize);
+			for (i = 0; i < (wWindowBufSize - j); i++)
+			{
+				bWindowBuf[i] = bWindowBuf[i + j];
+			}
+			wWindowBufCnt = wWindowBufSize - wMatchStringCnt;
+		}
+ 
+		//将刚刚匹配过的数据加入滑动窗口
+		memcpy((BYTE *)&bWindowBuf[wWindowBufCnt], bMatchString, wMatchStringCnt);
+		wWindowBufCnt += wMatchStringCnt;
+	}
+ 
+	//文件最后可能不满一组数据量，直接写到文件里
+	if (0 != bRestoreBufCnt)
+	{
+		fwrite(bRestoreBuf, 1, bRestoreBufCnt, pfWrite);
+	}
+ 
+	fclose(pfRead);
+	fclose(pfWrite);
+ 
+	return 0;
+}
+ 
+DWORD LZSS_decode(char *pbReadFileName, char *pbWriteFileName)
+{
+	WORD i, j;
+	BYTE bItemNum;
+	BYTE bFlag;
+	WORD wStart;
+	WORD wMatchStringCnt = 0;
+	WORD wWindowBufCnt = 0;
+	FILE *pfRead = fopen(pbReadFileName, "rb");
+	FILE *pfWrite = fopen(pbWriteFileName, "wb");
+ 
+	while (0 != fread(&bFlag, 1, 1, pfRead))  //先读一个标记字节以确定接下来怎么解压数据
+	{
+		for (bItemNum = 0; bItemNum < 8; bItemNum++)  //8个项目为一组进行解压
+		{
+			//从标记字节的最高位开始解析，0代表原始数据，1代表(下标，匹配数)解析
+			if (0 == (bFlag & ((BYTE)1 << (7 - bItemNum))))
+			{
+				if (fread(bPreBuf, 1, 1, pfRead) < 1)
+				{
+					goto LZSS_decode_out_;
+				}
+				fwrite(bPreBuf, 1, 1, pfWrite);
+				bMatchString[0] = bPreBuf[0];
+				wMatchStringCnt = 1;
+			}
+			else
+			{
+				if (fread(bPreBuf, 1, 2, pfRead) < 2)
+				{
+					goto LZSS_decode_out_;
+				}
+				//取出高位的滑动窗口匹配串下标
+				wStart = ((WORD)bPreBuf[0] | ((WORD)bPreBuf[1] << 8)) / ((WORD)1 << bPreBufSizeBits);  
+				//取出低位的匹配长度
+				wMatchStringCnt = ((WORD)bPreBuf[0] | ((WORD)bPreBuf[1] << 8)) % ((WORD)1 << bPreBufSizeBits) + bThreshold;
+				//将解压出的数据写入文件
+				fwrite(&bWindowBuf[wStart], 1, wMatchStringCnt, pfWrite);
+				memcpy(bMatchString, &bWindowBuf[wStart], wMatchStringCnt);
+			}
+ 
+			//如果滑动窗口将要溢出，先提前把前面的部分数据移出窗口
+			if ((wWindowBufCnt + wMatchStringCnt) > wWindowBufSize)
+			{
+				j = (wWindowBufCnt + wMatchStringCnt) - wWindowBufSize;
+				for (i = 0; i < wWindowBufCnt - j; i++)
+				{
+					bWindowBuf[i] = bWindowBuf[i + j];
+				}
+				wWindowBufCnt -= j;
+			}
+ 
+			//将解压处的数据同步写入到滑动窗口
+			memcpy(&bWindowBuf[wWindowBufCnt], bMatchString, wMatchStringCnt);
+			wWindowBufCnt += wMatchStringCnt;
+		}
+	}
+ 
+LZSS_decode_out_:
+ 
+	fclose(pfRead);
+	fclose(pfWrite);
+	return 0;
+}
+ 
+三、性能分析
+因为代码都是最基本的实现，并没有对匹配串搜索函数进行优化，所以时间性能上比较低，我们这里只对比压缩前后文件的字节大小。有一点要提到的就是代码里面有个threshold参数为2，意思是匹配串大于等于2才有必要进行压缩，因为（位置，长度）这个标记的输出长度为16比特位，所以匹配串只有1字节也用这种方式表示的话显然起不到压缩效果。大家还可以发现一个问题，写入文件时匹配长度并不是实际值，因为0和1的匹配长度是不存在的，所以干脆把0当做2，1当做3这样来看待，就可以把匹配长度扩充两个长度了。
+
+确定了（位置，长度）的输出格式为两个字节后，接下里就是怎么选取“位置”和“长度”各自所应该占用的比特位是多少了，我们可以设置为（8,8），（9,7），（10,6）等等这样的组合，但是给“位置”设置的比特位一定要大于等于“长度”的比特位，原因是滑动窗口大小要大于等于前向缓冲区大小，不然没有意义。对于相同的文件，这两个参数选取不同，那么压缩率也会不同，下面是我对一个log文件选取不同的参数进行压缩后的文件大小对比图，图中preBufSizeBits就是指的“长度”所占的比特位数：
+
+
+
+ 未压缩的原始文件大小是5.06MB，可以清晰的看出preBufSizeBits并不是越小越好，也不是越大越好，因为如果preBufSizeBits小了的话那么前向缓冲区也就小了，一次能匹配的数据串就小了；如果preBufSizeBits大了的话那么虽然前向缓冲区变大了，但是滑动窗口会缩小，数据串的匹配范围就变小了。所以需要选择一个合适的值才能使文件压缩性能最好。
+
+算法内部的对比就到这里了，接下来我们和当前流行的ZIP和RAR进行压缩性能对比，虽然感觉自不量力，但是有对比才有进步嘛。
+
+
+
+115.log是原始文件，encode2到encode8其实就是上边性能图里不同preBufSizeBits时生成的压缩文件，decode2到decode8是对应再解压缩出来的文件。115.rar是用电脑上RAR软件压缩的文件，115.zip是用电脑上ZIP软件压缩的文件。我们这个算法最好的性能是压缩到了197KB，和ZIP的161KB差距不是特别大，和RAR就差了相当一大截了。 因为ZIP其实也是类似的滑动窗口匹配压缩，所以接下来优化LZSS算法的话，还是要尽量向ZIP的性能看齐。
+
+四、总结
+接下来还会继续思考LZSS算法的改进，包括压缩率和压缩/解压时间的性能，因为我本人是嵌入式工程师，所以会思考实现在嵌入式设备上如何运用数据压缩，在网上查找资料的时候也找到了一些开源的压缩库，但是使用上可能会存在一些问题和限制，当然最好是我们使用的算法我们是知根知底的，这样我们就可以根据项目的需求和特点进行灵活的修改和运用，出了什么问题也不会太慌。
+
+文章知识点与官方知识档案匹配，可进一步学习相关知识
+算法技能树首页概览45521 人正在系统学习中
+
+金小庭
+关注
+
+7
+
+
+31
+打赏
+
+5
+
+专栏目录
+LZSS压缩算法C++源代码
+02-07
+LZSS压缩算法的C++源码，已经封装成class
+论文研究-一种基于LED显示系统的LZSS改进算法 .pdf
+08-14
+一种基于LED显示系统的LZSS改进算法，陈强，罗红，本文在LZSS无损压缩算法的基础上，提出了一种更加适合LED显示系统的改进型压缩算法。算法通过整体压缩分段解压的方式，在没有损失??
+5 条评论
+tangmiyu1987
+热评
+有一种任意数据无损压缩算法
+写评论
+LZSS算法_lzss编码_lightd的博客
+4-25
+LZSS算法 昨天看了下LZSS.C,就是那个4/6/1989 Haruhiko Okumura的经典代码。 很久没有研究算法了,又没有详细的描述,只能从代码和注释里面去理解。还真花了我不少时间。 首先讲解压,LZSS的编码是1 byte的flag,从低到高,如果bit=1...
+LZSS算法(C语言)_酒与花生米的博客
+4-22
+LZSS算法(C语言) #include<stdio.h>#include<stdlib.h>#include<string.h>#include<ctype.h>#defineN 4096#defineF 18#defineTHRESHOLD 2#defineNIL Nunsignedlonginttextsize=0,codesize=0,printcount=0;unsignedchartext_buf[N+...
+compc++.zip_lzari_rle8_压缩算法_图像理解_无损压缩
+07-14
+这个代码包中包含了一些比较通用的无损压缩算法的源代码，如果你想深入理解一些图像格式，那么读懂这些代码会对你有很大帮助，这是基础。（包中包括的算法有：lzari、lzhuf、lzss、lzw、lz77、huffman、rle8、rle16）。工具：通用C 。
+实现LZARI压缩算法的C++类
+03-15
+内容索引:VC/C++源码,算法相关,压缩,算法,LZARI　　一个基于LZARI算法的数据压缩类——lzari.c，它提供了lzari压缩算法的核心实现，本算法是在1989年7月4日用C语言实现，但是一些全局或静态的变量在MFC环境下使用很不方便，这也是为何把它变成一个C++类的原因，使它能够方便的压缩和解压缩。
+实现LZW字典压缩算法_梦远星帆的博客
+4-14
+LZSS算法基本流程: 1.从当前压缩位置开始,考察未编码的字符,并试图在滑动窗口中找出最长的匹配字符串,如果匹配字符串长度大于等于最小匹配串长度,则决心步骤2,否则进行步骤3; 2.输出指针二元组(off,len)。其中off为窗口匹配字符串相对...
+改进的LZSS压缩算法_happylife1527的博客
+4-21
+选择以文本文件进行压缩,源文件大小为1.5 Mb,采用改进LZSS算法压缩后数据量约为0.23Mb(对于不同的文件由于其数据的规律不一,压缩的比例不同,见表3),数据的传输时间可缩短至未压缩前的l/6左右,其有效性和稳定性均己得到验证。选择一...
+
+
+常见压缩算法源码lzw lzss LZHUF LZARI
+02-02
+常见压缩算法的源文件，如lzw lzss LZHUF LZARI
+【云计算与大数据技术】数据编码LZSS算法、Snappy压缩库及分布式通信系统的讲解（图文解释 超详细）
+最新发布
+showswoller的博客
+ 504
+【云计算与大数据技术】数据编码LZSS算法、Snappy压缩库及分布式通信系统的讲解（图文解释 超详细）
+LZSS算法学习
+@evan_wu163
+ 538
+压缩数据方法LZSS(Lempel-ziv-storer-szymanski)是一种无损数据压缩方法，是一种字典编码技术。与试图减少标示符号所需平均比特数的霍夫曼编码不同，LZSS尝试用对同一字符串的字典位置的引用来替代符号字符串。 ......
+【案例】 压缩算法 —— LZ 算法
+铭のブロゲ
+ 2669
+一种有趣的压缩算法。
+LZSS 压缩算法在 单片机上 （比lz77/lz78/lzw 更强)，好移植
+ 890
+http://wenku.baidu.com/view/5f654666f5335a8102d2204f.html LZSS数据压缩技术在单片机系统上的应用研究_百度文库   lzss压缩/解压算法 http://download.csdn.net/download/pandaguy623/4321284
+lzss压缩算法
+05-01
+一个完完全全的lzss压缩算法源工程
+易语言源码易语言lzss压缩算法源码.rar
+02-17
+易语言源码易语言lzss压缩算法源码.rar
+易语言lzss压缩算法
+07-21
+易语言lzss压缩算法源码,lzss压缩算法,lzss压缩,lzss解压,int,del
+LZSS压缩算法
+于无声处
+ 1万+
+　　今天完成了一套简单的LZSS算法代码，初步测试了一下（包括计算CRC32的时间），结果如下： 文件类型：Word的DOC文档 文件个数：217 文件总字节数：9,196,346字节（8.77MB) 平均压缩率：70%（压缩后长度是原长度的30%） 压缩时间：8766毫秒（大约是每秒1MB） 解压时间：795毫秒（大约是每秒11MB
+学习LZ77与LZSS算法的有关资料
+artmcu的专栏
+ 9541
+第五节   词典编码 有许多场合，开始时不知道要编码数据的统计特性，也不一定允许我们事先知道它们的统计特性。因此，人们提出了许许多多的数据压缩方法，企图用来对这些数据进行压缩编码，在实际编码过程中以尽可能获得最大的压缩比。这些技术统称为通用编码技术。词典编码(Dictionary Encoding)技术就是属于这一类，这种技术属于无损压缩技术。 一．词典编码分类 词典编码的根据是数据本身包含
+深入理解数据压缩与重复数据删除
+热门推荐
+刘爱贵的专栏
+ 2万+
+数据压缩与重复数据删除两种技术有何区别与联系呢？实际中又该如何正确应用呢？笔者之前对数据压缩原理和技术没有研究，因此做了点功课，查阅整理了相关资料，并与重复数据删除技术进行对比分析。
+论文研究-LZ77压缩算法及其改进 .pdf
+08-22
+LZ77压缩算法及其改进，李飞，，随着信息量的不断增加，应用压缩算法对信息进行压缩显得越来越重要。本文介绍了LZ77压缩算法及其最著名的实用算法LZSS。在此基础上?
+【LeetCode】isPalindrome 回文串（JAVA）
+卡尤的小黄鸡的博客
+ 799
+给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。 说明：本题中，我们将空字符串定义为有效的回文串。 示例 1: 输入: “A man, a plan, a canal: Panama” 输出: true 示例 2: 输入: “race a car” 输出: false class Solution { public boolean isPalindrome(String s) { //将原字符串转换为字符数组并判断是否为数字字符或者字母后 //统一转成
+ZIP压缩算法详细分析及解压实例
+YiRong
+ 4716
+少女系列：菅谷梨沙子写真。 查看大图 查看大图 查看大图 查看大图 查看大图 查看大图 查看大图 查看大图 查看大图 查看大图 查看大图 查
+LZ77压缩算法编码原理详解(结合图片和简单代码)
+weixin_30871701的博客
+ 958
+前言 　　LZ77算法是无损压缩算法，由以色列人Abraham Lempel发表于1977年。LZ77是典型的基于字典的压缩算法，现在很多压缩技术都是基于LZ77。鉴于其在数据压缩领域的地位，本文将结合图片和源码详细介绍其原理。 原理介绍： 　　首先介绍几个专业术语。 　　1.lookahead buffer(不知道怎么用中文表述，暂时称为待编码区): 　　等待编码的区域...
+“相关推荐”对你有帮助么？
+
+非常没帮助
+
+没帮助
+
+一般
+
+有帮助
+
+非常有帮助
+关于我们
+招贤纳士
+商务合作
+寻求报道
+
+400-660-0108
+
+kefu@csdn.net
+
+在线客服
+工作时间 8:30-22:00
+公安备案号11010502030143
+京ICP备19004658号
+京网文〔2020〕1039-165号
+经营性网站备案信息
+北京互联网违法和不良信息举报中心
+家长监护
+网络110报警服务
+中国互联网举报中心
+Chrome商店下载
+账号管理规范
+版权与免责声明
+版权申诉
+出版物许可证
+营业执照
+?1999-2023北京创新乐知网络技术有限公司
+
+金小庭
+码龄7年
+ 暂无认证
+40
+原创
+4万+
+周排名
+10万+
+总排名
+19万+
+访问
+
+等级
+2724
+积分
+242
+粉丝
+381
+获赞
+104
+评论
+1627
+收藏
+分享学徒
+签到新秀
+签到达人
+签到王者
+持续创作
+原力探索
+笔耕不辍
+创作能手
+学习力
+技术圈认证
+原力新人
+阅读者勋章
+私信
+关注
+搜博主文章
+
+热门文章
+纠错码专题——线性分组码（1）  14815
+纠错码专题——线性分组码的纠错能力  12084
+STM32使用SRAM扩展内存  11906
+无损压缩算法专题——无损压缩算法介绍  10083
+emWin专题——emWin简介及模拟器的使用  9997
+最新评论
+无损压缩算法专题——miniLZO
+小鹿不爱linux: 谢谢，救我于水火！
+
+纠错码专题——线性分组码（1）
+哇你是神仙吧: 65过了 非常感谢表情包
+
+【ucos】ucos移植到s3c2440
+小时候挺菜丶: 2440的片内RAM只有4k，对UCOS3不太够，请问知道如何设置使用片外RAM吗
+
+纠错码专题——线性分组码（1）
+哇你是神仙吧: 我擦 你真是我叠
+
+CMD执行命令行时卡住的问题
+Shark_2021: 太有用了，之前经常卡住 要按回车才行 一直不懂什么原因
+
+您愿意向朋友推荐“博客详情页”吗？
+
+强烈不推荐
+
+不推荐
+
+一般般
+
+推荐
+
+强烈推荐
+最新文章
+一种通过篡改特定代码数据修复嵌入式产品BUG的方法
+【BLE】HID设备的实现（蓝牙自拍杆、蓝牙键盘、蓝牙鼠标、HID复合设备）
+【USB】STM32模拟U盘进行IAP程序更新
+2022年2篇2021年1篇2020年38篇2019年5篇2018年1篇
+
+
+目录
+一、前言
+二、LZSS算法实现
+三、性能分析
+四、总结
+
+
+分类专栏
+
+STM32
+10篇
+
+BLE
+1篇
+
+无损压缩算法专题
+4篇
+
+USB
+2篇
+
+RTOS
+1篇
+
+JZ2440裸机实验
+8篇
+
+随机数
+2篇
+
+C语言
+1篇
+
+51单片机
+
+FPGA
+2篇
+
+数据纠检错算法
+4篇
+
+QT
+1篇
+
+闪存
+2篇
+
+NES专题
+5篇
+
+emWin专题
+1篇
+
+
+
+
+举报

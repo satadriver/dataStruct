@@ -1,1 +1,4 @@
-﻿
+﻿  plc.cpp
+D:\work\dataStruct\hollysys_plc\plc.cpp(12,16): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+D:\work\dataStruct\hollysys_plc\plc.cpp(12,16): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+  hollysys_plc.vcxproj -> D:\work\dataStruct\x64\Debug\hollysys_plc.exe

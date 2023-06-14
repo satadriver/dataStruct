@@ -81,6 +81,21 @@
     <ClCompile Include="binaryInsertSort.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MergeSort.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="rsa.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="lzss.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="myLzss.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="random.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bubbleSort.h">
@@ -141,6 +156,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="binaryInsertSort.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MergeSort.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rsa.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="lzss.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="mylzss.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="random.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,0 +1,5 @@
+﻿  rsa.cpp
+D:\work\dataStruct\dataStruct\rsa.cpp(148,8): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned char”，可能丢失数据
+D:\work\dataStruct\dataStruct\rsa.cpp(178,8): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned char”，可能丢失数据
+D:\work\dataStruct\dataStruct\rsa.cpp(187,14): warning C4244: “=”: 从“unsigned __int64”转换到“char”，可能丢失数据
+  dataStruct.vcxproj -> D:\work\dataStruct\x64\Debug\dataStruct.exe

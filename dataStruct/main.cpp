@@ -19,6 +19,11 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <math.h>
+#include "rsa.h"
+#include "lzss.h"
+#include "mylzss.h"
+#include "random.h"
 
 using namespace std;
 
@@ -31,6 +36,29 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+	testrandom();
+
+	test_lgzz();
+
+	lzss_test();
+
+	// 	ackerman(2, 1);
+	// 
+	// 	int ii = 3 % 8;
+	// 	int jj = 4 % 8;
+	// 	int kk = 8 % 3;
+	// 	int nn = 8 % 4;
+	// 	myInt64 iii = 2106;
+	// 	DWORD res = pow_i(981, 937, 2537) % 2537;
+
+	rsaInit(97, 43);
+	const char* myteststr = "Hello!\r\n Hi! \r\nHow are you ?\r\n Fine,thank you, and you ? \r\nI am fine, too!\r\n";
+	int teststrlen = lstrlenA(myteststr);
+	char dst0[1024] = { 0 };
+	rsa_encrypt((char*)myteststr, teststrlen + 1, dst0);
+	char dst1[1024];
+	rsa_decrypt((char*)dst0, teststrlen + 1, dst1);
+
 	DWORD totol = 0;
 	hanoi(1, 2, 3, 16, &totol);
 

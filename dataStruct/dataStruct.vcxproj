@@ -87,7 +87,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -101,7 +101,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -117,7 +117,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -135,7 +135,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -157,12 +157,16 @@
     <ClCompile Include="insertSort.cpp" />
     <ClCompile Include="kmp.cpp" />
     <ClCompile Include="list.cpp" />
+    <ClCompile Include="lzss.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MergeSort.cpp" />
+    <ClCompile Include="myLzss.cpp" />
     <ClCompile Include="primeNumber.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="queue.cpp" />
+    <ClCompile Include="random.cpp" />
     <ClCompile Include="recursion.cpp" />
+    <ClCompile Include="rsa.cpp" />
     <ClCompile Include="SelectionSort.cpp" />
     <ClCompile Include="shellSort.cpp" />
     <ClCompile Include="stack.cpp" />
@@ -182,11 +186,15 @@
     <ClInclude Include="insertSort.h" />
     <ClInclude Include="kmp.h" />
     <ClInclude Include="list.h" />
+    <ClInclude Include="lzss.h" />
     <ClInclude Include="MergeSort.h" />
+    <ClInclude Include="mylzss.h" />
     <ClInclude Include="primeNumber.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="queue.h" />
+    <ClInclude Include="random.h" />
     <ClInclude Include="recursion.h" />
+    <ClInclude Include="rsa.h" />
     <ClInclude Include="SelectionSort.h" />
     <ClInclude Include="shellSort.h" />
     <ClInclude Include="stack.h" />
