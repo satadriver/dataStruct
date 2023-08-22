@@ -182,32 +182,4 @@ int IndexKMP(char* s, char* t, int pos) {
 
 
 
-void testkmp() {
-	int result = 0;
-	char* s = "assaasssas";
-	char* p = "ssas";
-// 	get_next_str(p, NEXT_1);
- 	//result = IndexKMP_str(s, p, 0);
-	result =  KmpSearch(s, p);
-	printf("ok\r\n");
-	return;
 
-// 	char* s = "\x20hello asdfghasdfdgdadfsfdsfdadfdfffsd";
-// 	char* p = "\x05""fsfds";
-// 
-// 	get_next(p, NEXT_1);
-// 	//get_nextval(p, NEXT_1);
-// 
-// 	result = IndexKMP(s, p,1);
-// 
-// 	char* pos = strstr(s, p + 1);
-// 	if (pos )
-// 	{
-// 		int hdr = pos - s;
-// 		if (hdr == result)
-// 		{
-// 			printf("oo\r\n");
-// 		}
-// 	}
-// 	return;
-}

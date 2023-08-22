@@ -1,3 +1,4 @@
 #pragma once
 
-int bubbleSort(int data[], int size);
+int bubbleSortInc(int data[], int size);
+int bubbleSortDec(int data[], int size);

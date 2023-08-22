@@ -9,40 +9,31 @@ unsigned int binarySearch(int data[], int datasize, int v) {
 
 	int max = datasize - 1;
 	int min = 0;
-	if (v >= min && v <= max)
-	{
-	}
-	else {
-		return result;
-	}
 
-	int idx = datasize / 2;
+	int idx = 0;
 
 	do
 	{
+		idx = (min + max) >> 1;
+		if (idx < min || idx > max)
+		{
+			break;
+		}
+
 		int tmp = data[idx];
 		if (v == tmp)
 		{
 			return idx;
-		}else if (v > tmp)
-		{
-			min = idx;
-			idx = (idx + max) >>1;
-			if (idx <= min)
-			{
-				break;
-			}
-		}else if (v < tmp)
-		{
-			max = idx;
-			idx = (idx + min) >> 1;
-			if (idx <= max)
-			{
-				break;
-			}
 		}
-	} 
-	while (1);
+		else if (v > tmp)
+		{
+			min = idx + 1;
+		}
+		else if (v < tmp)
+		{
+			max = idx - 1;
+		}
+	} while (1);
 
-	return result;
+	return idx;
 }

@@ -1,6 +1,1 @@
-﻿  main.cpp
-D:\work\dataStruct\emerson\main.cpp(74,16): warning C4309: “=”: 截断常量值
-D:\work\dataStruct\emerson\main.cpp(75,16): warning C4309: “=”: 截断常量值
-D:\work\dataStruct\emerson\main.cpp(77,16): warning C4309: “=”: 截断常量值
-D:\work\dataStruct\emerson\main.cpp(78,16): warning C4309: “=”: 截断常量值
-  emerson.vcxproj -> D:\work\dataStruct\Debug\emerson.exe
+﻿  emerson.vcxproj -> D:\work\dataStruct-main\Debug\emerson.exe

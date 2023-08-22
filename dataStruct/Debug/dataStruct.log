@@ -1,2 +1,10 @@
-﻿  random.cpp
-  dataStruct.vcxproj -> D:\work\dataStruct\Debug\dataStruct.exe
+﻿  main.cpp
+D:\work\dataStruct-main\dataStruct\main.cpp(150,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(166,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(183,39): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(201,42): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(218,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(235,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(258,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(264,7): warning C4101: “szinfo”: 未引用的局部变量
+  dataStruct.vcxproj -> D:\work\dataStruct-main\Debug\dataStruct.exe

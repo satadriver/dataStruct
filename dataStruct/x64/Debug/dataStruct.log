@@ -1,5 +1,10 @@
-﻿  rsa.cpp
-D:\work\dataStruct\dataStruct\rsa.cpp(148,8): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned char”，可能丢失数据
-D:\work\dataStruct\dataStruct\rsa.cpp(178,8): warning C4244: “=”: 从“unsigned __int64”转换到“unsigned char”，可能丢失数据
-D:\work\dataStruct\dataStruct\rsa.cpp(187,14): warning C4244: “=”: 从“unsigned __int64”转换到“char”，可能丢失数据
-  dataStruct.vcxproj -> D:\work\dataStruct\x64\Debug\dataStruct.exe
+﻿  main.cpp
+D:\work\dataStruct-main\dataStruct\main.cpp(161,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(177,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(194,39): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(212,42): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(229,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(246,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(269,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\dataStruct-main\dataStruct\main.cpp(275,7): warning C4101: “szinfo”: 未引用的局部变量
+  dataStruct.vcxproj -> D:\work\dataStruct-main\x64\Debug\dataStruct.exe

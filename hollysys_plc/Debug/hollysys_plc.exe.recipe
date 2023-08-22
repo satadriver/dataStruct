@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\work\dataStruct\Debug\hollysys_plc.exe</FullPath>
+      <FullPath>D:\work\dataStruct-main\Debug\hollysys_plc.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

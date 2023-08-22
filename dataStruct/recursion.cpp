@@ -79,6 +79,8 @@ void hannuo(int n, char one, char two, char three, unsigned long* count)
 		hannuo(n - 1, two, one, three, count);//将n-1个盘从B座移动到C座上
 
 	}
+
+
 }
 
 
@@ -93,6 +95,8 @@ void hanoi(unsigned int a, unsigned int c, unsigned int b, int level, unsigned l
 		move(a, c, count);
 		hanoi(b, c, a, level - 1, count);
 	}
+
+	
 }
 
 
