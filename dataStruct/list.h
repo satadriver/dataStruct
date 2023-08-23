@@ -1,21 +1,47 @@
 #pragma once
 
-#include <iostream>
-
+#include "Element.h"
 
 
 #pragma pack(1)
-typedef struct  _DLLIST
+
+typedef struct  _LIST
 {
-	_DLLIST* prev;
-	_DLLIST* next;
-}DLLIST,*LPDLLIST;
+	_LIST* prev;
+	_LIST* next;
+	ELEMENT* e;
+}LIST;
+
+
+
 #pragma pack()
 
 
+class List {
+public:
+	List();
+	~List();
+	int insert(ELEMENT* e);
+	int remove(ELEMENT* e);
+
+protected:
+	LIST* search(ELEMENT* e);
+	LIST* mList;
+	int mSize;
+};
 
 
 
-int insertListElem();
+class CList {
+public:
+	CList();
+	~CList();
+	int insert(ELEMENT* e);
+	int remove(ELEMENT* e);
 
-int deleteListElem();
+protected:
+	LIST* search(ELEMENT* e);
+	LIST* mList;
+	int mSize;
+};
+

@@ -153,6 +153,7 @@
     <ClCompile Include="crc.cpp" />
     <ClCompile Include="fastSort.cpp" />
     <ClCompile Include="fibonacciSearch.cpp" />
+    <ClCompile Include="graph.cpp" />
     <ClCompile Include="heapSort.cpp" />
     <ClCompile Include="insertSort.cpp" />
     <ClCompile Include="kmp.cpp" />
@@ -171,8 +172,7 @@
     <ClCompile Include="shellSort.cpp" />
     <ClCompile Include="stack.cpp" />
     <ClCompile Include="template.cpp" />
-    <ClCompile Include="transNumber.cpp" />
-    <ClCompile Include="treeSearch.cpp" />
+    <ClCompile Include="tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="binaryInsertSort.h" />
@@ -180,8 +180,10 @@
     <ClInclude Include="bubbleSort.h" />
     <ClInclude Include="composite.h" />
     <ClInclude Include="crc.h" />
+    <ClInclude Include="Element.h" />
     <ClInclude Include="fastSort.h" />
     <ClInclude Include="fibonacciSearch.h" />
+    <ClInclude Include="graph.h" />
     <ClInclude Include="heapSort.h" />
     <ClInclude Include="insertSort.h" />
     <ClInclude Include="kmp.h" />
@@ -199,7 +201,7 @@
     <ClInclude Include="shellSort.h" />
     <ClInclude Include="stack.h" />
     <ClInclude Include="template.h" />
-    <ClInclude Include="transNumber.h" />
+    <ClInclude Include="tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -33,9 +33,6 @@
     <ClCompile Include="insertSort.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="transNumber.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="crc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -60,7 +57,7 @@
     <ClCompile Include="heapSort.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="treeSearch.cpp">
+    <ClCompile Include="tree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="shellSort.cpp">
@@ -96,6 +93,9 @@
     <ClCompile Include="random.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="graph.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bubbleSort.h">
@@ -111,9 +111,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="insertSort.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="transNumber.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="crc.h">
@@ -171,6 +168,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="random.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="graph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Element.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tree.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

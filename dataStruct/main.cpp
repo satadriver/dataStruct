@@ -1,12 +1,17 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <windows.h>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <math.h>
+
 #include "BinarySearch.h"
 #include "primeNumber.h"
 #include "composite.h"
 #include "bubbleSort.h"
 #include "insertSort.h"
-#include <stdlib.h>
-#include <string.h>
 #include "mystring.h"
 #include "kmp.h"
 #include "recursion.h"
@@ -16,17 +21,16 @@
 #include "heapSort.h"
 #include "binaryInsertSort.h"
 #include "shellSort.h"
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <math.h>
 #include "rsa.h"
 #include "lzss.h"
 #include "mylzss.h"
 #include "random.h"
 #include <conio.h>
-
-
+#include "graph.h"
+#include "stack.h"
+#include "queue.h"
+#include "list.h"
+#include "tree.h"
 
 using namespace std;
 
@@ -39,14 +43,50 @@ using namespace std;
 
 #define TEST_RSA
 
+#define TEST_STRUCT
 
 #define TEST_SEARCH
 
 #define TEST_SORT
 
+#define TEST_GRAPH
+
 int main(int argc, char** argv)
 {
 	int ret = 0;
+
+#ifdef TEST_STRUCT
+
+
+	Stack s;
+	Queue q;
+	ELEMENT e;
+	List list;
+	CList clist;
+
+	for (int i = 0; i < 1000; i++)
+	{
+		e.e = i;
+
+		q.enQueue(&e);
+
+		//q.deQueue(e);
+
+		s.push(&e);
+
+		clist.insert(&e);
+
+
+	}
+
+	Graph graph;
+
+	GRAPH* g = graph.genGraph(16, 1);
+
+	List newlist;
+	graph.BFT(g, &newlist);
+
+#endif
 
 #ifdef TEST_SEARCH
 	int fbarray[] = { 0, 16, 24, 35, 47, 59, 62, 73, 132,197,251,299,1044,2011,2033,2045,3011,4098,5000,5002 };
@@ -98,11 +138,11 @@ int main(int argc, char** argv)
 
 	//lzss_test();
 
-	int result = 0;
-	char* s = "assaasssas";
-	char* p = "ssas";
-	result = KmpSearch(s, p);
-	ret = KmpSearch("abcaabcbabcd", "bcd");
+// 	int result = 0;
+// 	char* s = (char*)"assaasssas";
+// 	char* p = (char*)"ssas";
+// 	result = KmpSearch(s, p);
+// 	ret = KmpSearch("abcaabcbabcd", "bcd");
 
 
 
