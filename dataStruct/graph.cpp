@@ -20,7 +20,7 @@ Graph::~Graph() {
 GRAPH* Graph::genGraph(int num, int init) {
 
 	ELEMENT* element = new ELEMENT[num * num];
-	memset(element, 0, num * num);
+	memset(element, 0, num * num * sizeof(ELEMENT));
 	GRAPH* g = new GRAPH;
 	g->element = element;
 	g->vertex = num;
@@ -58,21 +58,23 @@ int Graph::bft(GRAPH* g, int num, List* list) {
 		idx = num * g->vertex + j;
 		if (g->element[idx].e)
 		{
-
-			e.e = num;
+			e.e = j;
 			ret = list->insert(&e);
 			if (ret)
 			{
-				q.enQueue(&e);
-			}
 
+				q.enQueue(&e);
+				printf("get bft element:%lld\r\n", e.e);
+			}
 		}
 	}
 
 	while (q.isEmpty() == 0)
 	{
+
 		q.deQueue(&e);
 		bft(g, e.e, list);
+		printf("get bft element:%lld\r\n", e.e);
 	}
 
 	return 0;
@@ -80,10 +82,23 @@ int Graph::bft(GRAPH* g, int num, List* list) {
 
 
 //breadth first traversal
-int Graph::BFT(GRAPH* g, List* list) {
+int Graph::BFT(GRAPH* g, int num, List* list) {
 
-	for (int i = 0; i < g->vertex; i++)
+	ELEMENT e;
+	int ret = 0;
+
+	for (int i = num; i < g->vertex; i++)
 	{
+		e.e = i;
+		ret = list->insert(&e);
+
+		bft(g, i, list);
+	}
+
+	for (int i = 0; i < num; i++)
+	{
+		e.e = i;
+		ret = list->insert(&e);
 		bft(g, i, list);
 	}
 	return 0;
@@ -94,37 +109,48 @@ int Graph::BFT(GRAPH* g, List* list) {
 
 int Graph::dft(GRAPH* g, int num, List* list) {
 
-	Queue q;
 	ELEMENT e;
 
 	int idx;
 
 	int ret = 0;
 
-	for (int i = num; i < g->vertex; i++)
+	for (int j = 0; j < g->vertex; j++)
 	{
-
-		for (int j = 0; j < g->vertex; j++)
+		idx = num * g->vertex + j;
+		if (g->element[idx].e)
 		{
-			idx = i * g->vertex + j;
-			if (g->element[idx].e)
+			e.e = j;
+			ret = list->insert(&e);
+			if (ret)
 			{
-
-				e.e = idx;
-				ret = list->insert(&e);
-				if (ret)
-				{
-					dft(g, j, list);
-				}
+				printf("get dft element:%d\r\n", j);
+				dft(g, j, list);
 			}
 		}
 	}
-	return 0;
 
+	return 0;
 }
 
 
 //Depth first traversal
-int Graph::DFT(GRAPH* g, List* list) {
-	return dft(g, 0, list);
+int Graph::DFT(GRAPH* g, int num, List* list) {
+	ELEMENT e;
+	int ret = 0;
+
+	for (int i = num; i < g->vertex; i++)
+	{
+		e.e = i;
+		ret = list->insert(&e);
+		dft(g, i, list);
+	}
+
+	for (int i = 0; i < num; i++)
+	{
+		e.e = i;
+		ret = list->insert(&e);
+		dft(g, i, list);
+	}
+	return 0;
 }

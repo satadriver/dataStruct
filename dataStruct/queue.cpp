@@ -2,7 +2,7 @@
 
 #include "queue.h"
 
-#define DEFAULT_QUEUE_SIZE 0x4000
+
 
 
 Queue::Queue() {

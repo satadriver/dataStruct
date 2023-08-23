@@ -12,8 +12,6 @@ typedef struct  _LIST
 	ELEMENT* e;
 }LIST;
 
-
-
 #pragma pack()
 
 

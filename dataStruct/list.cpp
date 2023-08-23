@@ -15,7 +15,6 @@ List::~List() {
 	{
 		delete[] mList;
 		mList = 0;
-
 	}
 }
 
@@ -113,7 +112,6 @@ int List::remove(ELEMENT* e) {
 		}
 		else {
 			mList = mList->next;
-
 		}
 	}
 

@@ -27,12 +27,11 @@ public:
 
 	GRAPH* genGraph(int num, int init);
 
-	int BFT(GRAPH* graph, List* list);
-
+	int BFT(GRAPH* graph, int num, List* list);
 
 	int bft(GRAPH* g, int num, List* list);
 
-	int DFT(GRAPH* g, List* list);
+	int DFT(GRAPH* g, int num, List* list);
 
 	int dft(GRAPH* g, int num, List* list);
 };

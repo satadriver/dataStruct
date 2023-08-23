@@ -13,7 +13,7 @@ typedef struct  _TREE
 	_TREE* lchild;
 	_TREE* rchild;
 
-	ELEMENT* data;
+	ELEMENT data;
 }TREE;
 
 #pragma pack()

@@ -2,9 +2,10 @@
 
 #include "Element.h"
 
+#define DEFAULT_QUEUE_SIZE 0x1000
+
 
 class Queue {
-
 
 public:
 	Queue();
@@ -19,9 +20,8 @@ public:
 
 	int deQueue(ELEMENT* e);
 
-	int getPayload();
-
 protected:
+	int getPayload();
 	ELEMENT* mBase;
 	ELEMENT* mHdr;
 	ELEMENT* mTail;
