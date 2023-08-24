@@ -9,6 +9,10 @@ List::List() {
 	mSize = 0;
 }
 
+List::List(LIST* l) {
+	mList = l;
+	mSize = 0;
+}
 
 List::~List() {
 	if (mList)
@@ -151,12 +155,35 @@ int List::remove(ELEMENT* e) {
 
 
 
+int CList::clear() {
+	LIST* l = mList;
 
+	int cnt = 0;
+	do
+	{
+		if (l == 0)
+		{
+			break;
+		}
+		LIST* next = l;
+		delete l->e;
+		delete l;
+		l = next;
+		cnt++;
+	} while (l != mList);
+
+	return cnt;
+}
 
 
 
 CList::CList() {
 	mList = 0;
+	mSize = 0;
+}
+
+CList::CList(LIST* l) {
+	mList = l;
 	mSize = 0;
 }
 

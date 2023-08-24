@@ -31,6 +31,7 @@
 #include "queue.h"
 #include "list.h"
 #include "tree.h"
+#include "hash.h"
 
 using namespace std;
 
@@ -64,19 +65,23 @@ int main(int argc, char** argv)
 	CList clist;
 	Tree t;
 
+	Hash h;
+
 	srand(0);
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		e.e = rand();
 
-		q.enQueue(&e);
+		//h.insert(&e);
+
+		//q.enQueue(&e);
 
 		//q.deQueue(e);
 
-		s.push(&e);
+		//s.push(&e);
 
-		clist.insert(&e);
+		//clist.insert(&e);
 
 		t.insert(&e);
 	}
@@ -93,7 +98,7 @@ int main(int argc, char** argv)
 		0,0,1,1,0
 	};
 
-	GRAPH* g = graph.genGraph(10, 1);
+	GRAPH* g = graph.genGraph(100, 1);
 	//g->element = (ELEMENT*)buf;
 	List newlist;
 

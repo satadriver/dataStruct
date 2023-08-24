@@ -1,6 +1,10 @@
-﻿  hash.cpp
-  list.cpp
-  tree.cpp
-  正在生成代码...
-D:\work\upload\dataStruct\dataStruct\hash.cpp(78): error C4716: “Hash::remove”: 必须返回一个值
-D:\work\upload\dataStruct\dataStruct\hash.cpp(74): error C4716: “Hash::insert”: 必须返回一个值
+﻿  main.cpp
+D:\work\upload\dataStruct\dataStruct\main.cpp(219,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(235,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(252,39): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(270,42): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(287,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(304,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(327,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(333,7): warning C4101: “szinfo”: 未引用的局部变量
+  dataStruct.vcxproj -> D:\work\upload\dataStruct\Debug\dataStruct.exe

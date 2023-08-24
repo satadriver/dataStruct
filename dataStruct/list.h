@@ -19,6 +19,7 @@ class List {
 public:
 	List();
 	~List();
+	List(LIST* l);
 	int insert(ELEMENT* e);
 	int remove(ELEMENT* e);
 
@@ -36,9 +37,10 @@ class CList {
 public:
 	CList();
 	~CList();
+	CList(LIST* l);
 	int insert(ELEMENT* e);
 	int remove(ELEMENT* e);
-
+	int clear();
 protected:
 	LIST* search(ELEMENT* e);
 	LIST* mList;

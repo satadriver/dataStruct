@@ -2,7 +2,7 @@
 
 #include "Element.h"
 
-#define DEFAULT_QUEUE_SIZE 0x1000
+#define DEFAULT_QUEUE_SIZE 0x10000
 
 
 class Queue {

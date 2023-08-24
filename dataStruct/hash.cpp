@@ -17,6 +17,7 @@ Hash::Hash(int size) {
 	mSize = size;
 }
 
+
 Hash::~Hash() {
 	for (int i = 0; i < mSize; i++)
 	{
@@ -29,8 +30,11 @@ Hash::~Hash() {
 				{
 					break;
 				}
+				LIST* tmp = p->next;
 				delete p->e;
 				delete p;
+
+				p = tmp;
 
 			} while (p != mBase[i]);
 
@@ -71,11 +75,34 @@ LIST* Hash::search(ELEMENT* e) {
 
 int Hash::insert(ELEMENT* e) {
 
-	return 0;
+	int ret = 0;
+	int seq = e->e % mSize;
+
+	LIST* list = mBase[seq];
+	if (list == 0) {
+		list = new LIST;
+		list->next = list;
+		list->prev = list;
+		list->e = new ELEMENT;
+		memcpy(list->e, e, sizeof(ELEMENT));
+		mBase[seq] = list;
+		return 1;
+	}
+
+	CList clist(list);
+	ret = clist.insert(e);
+	return ret;
 }
 
 int Hash::remove(ELEMENT* e) {
+	int ret = 0;
+	int seq = e->e % mSize;
 
-	return 0;
+	LIST* list = mBase[seq];
+
+	CList clist(list);
+	ret = clist.remove(e);
+	return ret;
+
 }
 

@@ -5,7 +5,7 @@
 
 #include "Element.h"
 
-#define DEFAULT_STACK_SIZE 0x1000
+#define DEFAULT_STACK_SIZE 0x10000
 
 
 
