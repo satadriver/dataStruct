@@ -67,24 +67,30 @@ int main(int argc, char** argv)
 
 	Hash h;
 
-	srand(0);
+	srand(time(0));
 
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 0x1000; i++)
 	{
 		e.e = rand();
 
 		//h.insert(&e);
 
-		//q.enQueue(&e);
+		q.enQueue(&e);
 
-		//q.deQueue(e);
-
-		//s.push(&e);
+		s.push(&e);
 
 		//clist.insert(&e);
 
 		t.insert(&e);
 	}
+
+	for (int i = 0; i < 0x1000; i++)
+	{
+		q.deQueue(&e);
+		s.pop(&e);
+	}
+
+	t.remove(&e);
 
 	t.ltr(&list);
 

@@ -95,7 +95,11 @@ int Tree::remove(ELEMENT* e) {
 
 	if (lchild == 0 && rchild == 0)
 	{
-		if (parent->lchild == t)
+		if (parent == 0 || t == mTree) {
+			delete mTree;
+			mTree = 0;
+		}
+		else if (parent->lchild == t)
 		{
 			parent->lchild = 0;
 		}
@@ -104,12 +108,17 @@ int Tree::remove(ELEMENT* e) {
 			parent->rchild = 0;
 		}
 		else {
-			return 0;
+
 		}
 	}
 	else if (lchild == 0)
 	{
-		if (parent->lchild == t)
+		if (parent == 0 || t == mTree) {
+			delete mTree;
+			mTree = rchild;
+			rchild->parent = 0;
+		}
+		else if (parent->lchild == t)
 		{
 			parent->lchild = rchild;
 		}
@@ -118,12 +127,17 @@ int Tree::remove(ELEMENT* e) {
 			parent->rchild = rchild;
 		}
 		else {
-			return 0;
+
 		}
 	}
 	else if (rchild == 0)
 	{
-		if (parent->lchild == t)
+		if (parent == 0 || t == mTree) {
+			delete mTree;
+			mTree = lchild;
+			lchild->parent = 0;
+		}
+		else if (parent->lchild == t)
 		{
 			parent->lchild = lchild;
 		}
@@ -132,12 +146,24 @@ int Tree::remove(ELEMENT* e) {
 			parent->rchild = lchild;
 		}
 		else {
-			return 0;
+
 		}
 	}
 	else {
 		//left subtree upwards and move right subtree ,or right subtree upwards and move left subtree
-		if (parent->lchild == t)
+		if (parent == 0 || t == mTree) {
+			TREE* tmp = lchild;
+			while (tmp->rchild)
+			{
+				tmp = tmp->rchild;
+			}
+			rchild->parent = tmp;
+			tmp->rchild = rchild;
+			lchild->parent = 0;
+			delete mTree;
+			mTree = lchild;
+		}
+		else if (parent->lchild == t)
 		{
 			parent->lchild = lchild;
 			lchild->parent = parent;
