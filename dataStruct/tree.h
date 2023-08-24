@@ -27,6 +27,8 @@ public:
 
 	int remove(ELEMENT* e);
 
+	TREE* search(ELEMENT* e);
+
 	int ltr(List* list);
 	int LTR(TREE* t, List* list, Stack* s);
 

@@ -57,7 +57,6 @@ int main(int argc, char** argv)
 
 #ifdef TEST_STRUCT
 
-
 	Stack s;
 	Queue q;
 	ELEMENT e;
@@ -67,7 +66,7 @@ int main(int argc, char** argv)
 
 	srand(0);
 
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		e.e = rand();
 
@@ -80,8 +79,6 @@ int main(int argc, char** argv)
 		clist.insert(&e);
 
 		t.insert(&e);
-
-
 	}
 
 	t.ltr(&list);
@@ -96,10 +93,9 @@ int main(int argc, char** argv)
 		0,0,1,1,0
 	};
 
-	GRAPH* g = graph.genGraph(5, 1);
-	g->element = (ELEMENT*)buf;
+	GRAPH* g = graph.genGraph(10, 1);
+	//g->element = (ELEMENT*)buf;
 	List newlist;
-
 
 	graph.DFT(g, 0, &newlist);
 	//graph.BFT(g, 0, &newlist);

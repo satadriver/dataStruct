@@ -40,6 +40,17 @@ GRAPH* Graph::genGraph(int num, int init) {
 				}
 			}
 		}
+
+		for (int i = 0; i < num; i++) {
+			for (int j = 0; j < num; j++) {
+
+				int idx1 = i * num + j;
+				int idx2 = j * num + i;
+				g->element[idx2].e = g->element[idx1].e;
+
+			}
+		}
+
 	}
 	return g;
 }

@@ -22,6 +22,8 @@ public:
 	int insert(ELEMENT* e);
 	int remove(ELEMENT* e);
 
+	int clear();
+
 protected:
 	LIST* search(ELEMENT* e);
 	LIST* mList;

@@ -63,6 +63,8 @@ int List::insert(ELEMENT* e) {
 		cnt++;
 	}
 	else {
+		cnt++;
+
 		LIST* tmp = mList;
 		while (tmp->next)
 		{
@@ -74,7 +76,6 @@ int List::insert(ELEMENT* e) {
 		list->prev = tmp;
 
 		tmp->next = list;
-
 		cnt++;
 	}
 
@@ -83,6 +84,26 @@ int List::insert(ELEMENT* e) {
 	return cnt;
 }
 
+
+int List::clear() {
+	LIST* l = mList;
+
+	int cnt = 0;
+	do
+	{
+		if (l == 0)
+		{
+			break;
+		}
+		LIST* next = l;
+		delete l->e;
+		delete l;
+		l = next;
+		cnt++;
+	} while (l != mList);
+
+	return cnt;
+}
 
 int List::remove(ELEMENT* e) {
 	LIST* list = search(e);

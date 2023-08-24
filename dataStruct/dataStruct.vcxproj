@@ -154,6 +154,7 @@
     <ClCompile Include="fastSort.cpp" />
     <ClCompile Include="fibonacciSearch.cpp" />
     <ClCompile Include="graph.cpp" />
+    <ClCompile Include="hash.cpp" />
     <ClCompile Include="heapSort.cpp" />
     <ClCompile Include="insertSort.cpp" />
     <ClCompile Include="kmp.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="fastSort.h" />
     <ClInclude Include="fibonacciSearch.h" />
     <ClInclude Include="graph.h" />
+    <ClInclude Include="hash.h" />
     <ClInclude Include="heapSort.h" />
     <ClInclude Include="insertSort.h" />
     <ClInclude Include="kmp.h" />
