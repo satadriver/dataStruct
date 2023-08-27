@@ -32,6 +32,9 @@
 #include "list.h"
 #include "tree.h"
 #include "hash.h"
+#include "MergeSort.h"
+
+
 
 using namespace std;
 
@@ -314,6 +317,21 @@ int main(int argc, char** argv)
 
 
 
+	double mergeSortTimes = 0;
+	for (int i = 0; i < TEST_TIMES; i++)
+	{
+		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
+
+		QueryPerformanceCounter(&startli);
+
+		ret = mergeSort(arr, elements_counter);			//62327
+
+		QueryPerformanceCounter(&endli);
+
+		mergeSortTimes = endli.QuadPart - startli.QuadPart;
+
+	}
+	mergeSortTimes = mergeSortTimes / freq.QuadPart;
 
 
 
@@ -337,8 +355,10 @@ int main(int argc, char** argv)
 
 
 	char szinfo[1024];
-	printf(" bubbleSort:%lf\r\n insertSort:%lf\r\n selectionSort:%lf\r\n shellSort:%lf\r\n binaryInsertSort:%lf\r\n heapSort:%lf\r\n fastSort:%lf\r\n ",
-		bubbleSortTimes, insertSortTimes, selectionSortTimes, shellSortTimes, binaryInsertSortTimes, heapSortTimes, fastSortTimes);
+	printf(" bubbleSort:%lf\r\n insertSort:%lf\r\n selectionSort:%lf\r\n "
+		"shellSort:%lf\r\n binaryInsertSort:%lf\r\n heapSort:%lf\r\n fastSort:%lf\r\n mergeSort:%lf\r\n",
+		bubbleSortTimes, insertSortTimes, selectionSortTimes,
+		shellSortTimes, binaryInsertSortTimes, heapSortTimes, fastSortTimes, mergeSortTimes);
 	//printf(szinfo);
 	//cout << szinfo;
 
