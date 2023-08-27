@@ -1,11 +1,14 @@
 ﻿  main.cpp
-D:\work\upload\dataStruct\dataStruct\main.cpp(70,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(225,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(241,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(258,39): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(276,42): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(293,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(310,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(333,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(339,7): warning C4101: “szinfo”: 未引用的局部变量
+D:\work\upload\dataStruct\dataStruct\main.cpp(78,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(233,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(249,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(266,39): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(284,42): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(301,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(318,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(336,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(356,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\work\upload\dataStruct\dataStruct\main.cpp(362,7): warning C4101: “szinfo”: 未引用的局部变量
+  matrix.cpp
+  正在生成代码...
   dataStruct.vcxproj -> D:\work\upload\dataStruct\Debug\dataStruct.exe

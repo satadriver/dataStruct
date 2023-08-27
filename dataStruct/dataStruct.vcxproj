@@ -161,6 +161,7 @@
     <ClCompile Include="list.cpp" />
     <ClCompile Include="lzss.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="matrix.cpp" />
     <ClCompile Include="MergeSort.cpp" />
     <ClCompile Include="myLzss.cpp" />
     <ClCompile Include="primeNumber.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="kmp.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="lzss.h" />
+    <ClInclude Include="matrix.h" />
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="mylzss.h" />
     <ClInclude Include="primeNumber.h" />

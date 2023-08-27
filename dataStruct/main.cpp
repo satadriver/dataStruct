@@ -34,7 +34,7 @@
 #include "hash.h"
 #include "MergeSort.h"
 
-
+#include "matrix.h"
 
 using namespace std;
 
@@ -58,6 +58,11 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	int ret = 0;
+
+	int matrix1[] = { 2,3,4,5 };
+	int matrix2[] = { 5,6,7,8 };
+	int matrix3[4] = { 0 };
+	matmul(matrix1, 2, 2, matrix2, 2, 2, matrix3);
 
 #ifdef TEST_STRUCT
 
@@ -159,7 +164,7 @@ int main(int argc, char** argv)
 	testa = testa ^ testb;
 	printf("testa:%X,testb:%x\r\n", testa, testb);
 
-	_getch();
+	//_getch();
 	//testrandom();
 
 	//test_lgzz();
@@ -362,7 +367,8 @@ int main(int argc, char** argv)
 	//printf(szinfo);
 	//cout << szinfo;
 
-	ret = getchar();
+	//ret = getchar();
+	_getch();
 
 #endif
 

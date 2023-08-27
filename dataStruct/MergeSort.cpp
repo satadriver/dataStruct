@@ -1,8 +1,9 @@
 
+#include "MergeSort.h"
+#include <string.h>
 
 
-
-void MSort(int* data,int start, int end) {
+void MSort(int* data, int start, int end) {
 
 	int size = end - start;
 	if (size <= 1) {
@@ -18,17 +19,18 @@ void MSort(int* data,int start, int end) {
 			MSort(data, start, m);
 		}
 
-		if (h2>=2) {
-			MSort(data, m, end );
+		if (h2 >= 2) {
+			MSort(data, m, end);
 		}
 
 		int* tmp = new int[size];
+		memset(tmp, 0, sizeof(int*) * size);
 
 		int i = start;
 		int k = 0;
 		int j = m;
 
-		for (; i < m &&j <end; k++) {			//why "i < m, j <end " is error?
+		for (; i < m && j < end; k++) {			//why "i < m, j <end " is error?
 			if (data[j] < data[i]) {
 				tmp[k] = data[j];
 				j++;
@@ -40,22 +42,22 @@ void MSort(int* data,int start, int end) {
 		}
 
 		if (i != m) {
-			for (int n = i; n < m; n++,k++) {
+			for (int n = i; n < m; n++, k++) {
 				tmp[k] = data[n];
 			}
 		}
 
 		if (j != end) {
-			for (int n = j; n < end; n++,k ++) {
+			for (int n = j; n < end; n++, k++) {
 				tmp[k] = data[n];
 			}
 		}
 
-		for (int l = start,k = 0; l < size; l++,k ++) {
+		for (int l = start, k = 0; l < size; l++, k++) {
 			data[l] = tmp[k];
 		}
 
-		delete tmp;
+		delete[]tmp;
 	}
 
 	return;
