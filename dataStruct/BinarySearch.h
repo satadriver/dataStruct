@@ -1,7 +1,4 @@
 #pragma once
 
 
-#pragma once
-
-
-int mergeSort(int* data, int size);
+unsigned int binarySearch(int data[], int datasize, int v);
