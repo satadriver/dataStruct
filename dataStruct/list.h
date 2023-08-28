@@ -24,7 +24,7 @@ public:
 	int remove(ELEMENT* e);
 
 	int clear();
-
+	LIST* get();
 protected:
 	LIST* search(ELEMENT* e);
 	LIST* mList;
@@ -41,6 +41,7 @@ public:
 	int insert(ELEMENT* e);
 	int remove(ELEMENT* e);
 	int clear();
+	LIST* get();
 protected:
 	LIST* search(ELEMENT* e);
 	LIST* mList;

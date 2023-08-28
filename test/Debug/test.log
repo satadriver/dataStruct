@@ -1,1 +1,2 @@
-﻿  test.vcxproj -> D:\work\upload\dataStruct\Debug\test.exe
+﻿  test.cpp
+LINK : fatal error LNK1104: 无法打开文件“zlib.lib”

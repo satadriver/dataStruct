@@ -149,10 +149,15 @@ int List::remove(ELEMENT* e) {
 	return result;
 }
 
+LIST* List::get() {
+	return mList;
+}
 
 
 
-
+LIST* CList::get() {
+	return mList;
+}
 
 
 int CList::clear() {

@@ -1,14 +1,18 @@
-﻿  main.cpp
-D:\work\upload\dataStruct\dataStruct\main.cpp(78,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(233,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(249,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(266,39): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(284,42): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(301,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(318,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(336,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(356,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-D:\work\upload\dataStruct\dataStruct\main.cpp(362,7): warning C4101: “szinfo”: 未引用的局部变量
-  matrix.cpp
+﻿  graph.cpp
+D:\vs\dataStruct\dataStruct\graph.cpp(87,11): warning C4244: “参数”: 从“unsigned __int64”转换到“int”，可能丢失数据
+  hash.cpp
+  list.cpp
+  main.cpp
+D:\vs\dataStruct\dataStruct\main.cpp(78,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+D:\vs\dataStruct\dataStruct\main.cpp(233,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\vs\dataStruct\dataStruct\main.cpp(249,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\vs\dataStruct\dataStruct\main.cpp(266,39): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\vs\dataStruct\dataStruct\main.cpp(284,42): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\vs\dataStruct\dataStruct\main.cpp(301,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\vs\dataStruct\dataStruct\main.cpp(318,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\vs\dataStruct\dataStruct\main.cpp(336,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\vs\dataStruct\dataStruct\main.cpp(356,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
+D:\vs\dataStruct\dataStruct\main.cpp(362,7): warning C4101: “szinfo”: 未引用的局部变量
+  tree.cpp
   正在生成代码...
-  dataStruct.vcxproj -> D:\work\upload\dataStruct\Debug\dataStruct.exe
+  dataStruct.vcxproj -> D:\vs\dataStruct\Debug\dataStruct.exe
