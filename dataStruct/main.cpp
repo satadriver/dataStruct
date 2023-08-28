@@ -59,10 +59,15 @@ int main(int argc, char** argv)
 {
 	int ret = 0;
 
-	int matrix1[] = { 2,3,4,5 };
-	int matrix2[] = { 5,6,7,8 };
-	int matrix3[4] = { 0 };
-	matmul(matrix1, 2, 2, matrix2, 2, 2, matrix3);
+	int matrix1[] = { 2,3,4,5,6,7,8,9,1 };
+	int matrix2[] = { 5,6,7,8,9,0,1,2,3 };
+	int matrix3[9] = { 0 };
+
+	
+
+	matmul(matrix1, 3, 3, matrix2, 3, 3, matrix3);
+
+	transpose(matrix3, 3, 3);
 
 #ifdef TEST_STRUCT
 

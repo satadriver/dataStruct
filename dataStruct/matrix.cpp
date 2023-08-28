@@ -3,6 +3,24 @@
 #include "matrix.h"
 
 
+int transpose(int * mat1,int width,int height) {
+	for (int i = 0;i < width; i ++)
+	{
+		//for (int j = 0;j < i;j ++)
+		for (int j = i;j < height;j ++)
+		{
+			{
+				int* p1 = mat1 +  j * width + i;
+				int* p2 = mat1 + i * width + j;
+				int tmp = *p1;
+				*p1 = *p2;
+				*p2 = tmp;
+			}
+		}
+	}
+	return 0;
+}
+
 int matmul(int* mat1, int width1, int height1, int* mat2, int width2, int height2, int* mat3) {
 
 	int* m1 = mat1;
