@@ -24,14 +24,21 @@ Tree::~Tree() {
 }
 
 
+TREE* Tree::newnode(ELEMENT* e) {
+
+	TREE * t = new TREE;
+	t->data.e = e->e;
+	t->parent = 0;
+	t->lchild = 0;
+	t->rchild = 0;
+	return t;
+}
+
+
 int Tree::insert(ELEMENT* e) {
 	if (mTree == 0)
 	{
-		mTree = new TREE;
-		mTree->data.e = e->e;
-		mTree->parent = 0;
-		mTree->lchild = 0;
-		mTree->rchild = 0;
+		mTree = newnode(e);
 		mSize = 1;
 		return 1;
 	}
@@ -46,10 +53,7 @@ int Tree::insert(ELEMENT* e) {
 		{
 			if (t->rchild == 0)
 			{
-				TREE* newt = new TREE;
-				newt->data.e = e->e;
-				newt->lchild = 0;
-				newt->rchild = 0;
+				TREE* newt = newnode(e);
 				newt->parent = t;
 				t->rchild = newt;
 				mSize++;
@@ -62,10 +66,7 @@ int Tree::insert(ELEMENT* e) {
 		else {
 			if (t->lchild == 0)
 			{
-				TREE* newt = new TREE;
-				newt->data.e = e->e;
-				newt->lchild = 0;
-				newt->rchild = 0;
+				TREE* newt = newnode(e);
 				newt->parent = t;
 
 				t->lchild = newt;
@@ -176,7 +177,6 @@ int Tree::remove(ELEMENT* e) {
 			tmp->rchild = rchild;
 			rchild->parent = tmp;
 
-
 			/*parent->lchild = rchild;
 			rchild->parent = parent;
 
@@ -202,7 +202,6 @@ int Tree::remove(ELEMENT* e) {
 			tmp->rchild = rchild;
 			rchild->parent = tmp;
 
-
 			/*
 			parent->rchild = rchild;
 			rchild->parent = parent;
@@ -225,35 +224,23 @@ int Tree::remove(ELEMENT* e) {
 
 
 TREE* Tree::search(ELEMENT* e) {
-	if (mTree == 0)
-	{
-		return 0;
-	}
 
 	TREE* t = mTree;
 
 	while (1) {
+		if (t == 0)
+		{
+			break;
+		}
 		if (e->e == t->data.e) {
 			return t;
 		}
 		else if (e->e > t->data.e)
 		{
-			if (t->rchild == 0)
-			{
-				break;
-			}
-			else {
-				t = t->rchild;
-			}
+			t = t->rchild;		
 		}
 		else {
-			if (t->lchild == 0)
-			{
-				break;
-			}
-			else {
-				t = t->lchild;
-			}
+			t = t->lchild;
 		}
 	}
 
@@ -280,7 +267,7 @@ int Tree::LTR(TREE* t, List* list, Stack* s) {
 	}
 
 	e.e = (unsigned __int64)t;
-	e.data = t->data.data;
+	//e.data = t->data.data;
 	list->insert(&e);
 	cnt++;
 	printf("get LTR element:%lld value:%lld\r\n", e.e, t->data.e);

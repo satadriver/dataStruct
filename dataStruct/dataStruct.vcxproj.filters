@@ -102,6 +102,12 @@
     <ClCompile Include="matrix.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="bbst.h">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bbst.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bubbleSort.h">

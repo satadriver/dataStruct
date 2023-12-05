@@ -29,6 +29,8 @@ public:
 
 	TREE* search(ELEMENT* e);
 
+	TREE* newnode(ELEMENT* e);
+
 	int ltr(List* list);
 	int LTR(TREE* t, List* list, Stack* s);
 
