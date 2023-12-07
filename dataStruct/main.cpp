@@ -35,11 +35,12 @@
 #include "MergeSort.h"
 
 #include "matrix.h"
+#include "bbst.h"
 
 using namespace std;
 
 
-#define MAX_ARRAY_SIZE 0x10000
+#define MAX_ARRAY_SIZE 0x1000
 
 #define TEST_TIMES 3
 
@@ -59,11 +60,21 @@ int main(int argc, char** argv)
 {
 	int ret = 0;
 
+	BBSTree bbst;
+	srand(0);
+	for (int i = 0; i < MAX_ARRAY_SIZE; i++)
+	{
+		int n = rand();
+		ELEMENT e;
+		e.e = n;
+		bbst.insert(&e);
+	}
+
+
+
 	int matrix1[] = { 2,3,4,5,6,7,8,9,1 };
 	int matrix2[] = { 5,6,7,8,9,0,1,2,3 };
 	int matrix3[9] = { 0 };
-
-	
 
 	matmul(matrix1, 3, 3, matrix2, 3, 3, matrix3);
 

@@ -1,22 +1,2 @@
 ﻿  bbst.cpp
-  bbst.h
-  graph.cpp
-C:\Users\ljg\dataStruct\dataStruct\graph.cpp(87,11): warning C4244: “参数”: 从“unsigned __int64”转换到“int”，可能丢失数据
-  hash.cpp
-  list.cpp
-  main.cpp
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(83,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(238,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(254,36): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(271,39): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(289,42): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(306,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(323,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(341,35): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(361,34): warning C4244: “=”: 从“LONGLONG”转换到“double”，可能丢失数据
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(367,7): warning C4101: “szinfo”: 未引用的局部变量
-  queue.cpp
-  stack.cpp
-  tree.cpp
-  正在生成代码...
   dataStruct.vcxproj -> C:\Users\ljg\dataStruct\Debug\dataStruct.exe

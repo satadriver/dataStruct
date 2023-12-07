@@ -24,6 +24,20 @@ BBSTree::~BBSTree() {
 }
 
 
+int deep(BBST* b) {
+	if (b == 0)
+	{
+		return 0;
+	}
+
+	int ld =  deep(b->lchild);
+		
+	int rd = deep(b->rchild) ;
+	
+	return ld > rd ? ld + 1 : rd + 1;
+}
+
+
 BBST* BBSTree::newnode(ELEMENT* e) {
 
 	BBST* t = new BBST;
@@ -31,7 +45,8 @@ BBST* BBSTree::newnode(ELEMENT* e) {
 	t->parent = 0;
 	t->lchild = 0;
 	t->rchild = 0;
-	t->depth = 0;
+	t->ld = 0;
+	t->rd = 0;
 
 	return t;
 }
@@ -46,7 +61,10 @@ int BBSTree::insert(ELEMENT* e) {
 
 	BBST* t = mTree;
 
+	BBST* tc = 0;
 	Stack s;
+
+	ELEMENT elem;
 
 	while (1) {
 		if (e->e == t->data.e) {
@@ -56,14 +74,13 @@ int BBSTree::insert(ELEMENT* e) {
 		{
 			if (t->rchild == 0)
 			{
-				BBST* newt = newnode(e);
-				newt->parent = t;
-				t->rchild = newt;
+				tc = newnode(e);
+				tc->parent = t;
+				t->rchild = tc;
 				mSize++;
 				break;
 			}
-			else {
-				ELEMENT elem;
+			else {			
 				elem.e = (unsigned long long)t;
 				s.push((ELEMENT*)&elem);
 
@@ -73,15 +90,14 @@ int BBSTree::insert(ELEMENT* e) {
 		else {
 			if (t->lchild == 0)
 			{
-				BBST* newt = newnode(e);
-				newt->parent = t;
+				tc = newnode(e);
+				tc->parent = t;
 
-				t->lchild = newt;
+				t->lchild = tc;
 				mSize++;
 				break;
 			}
 			else {
-				ELEMENT elem;
 				elem.e = (unsigned long long)t;
 				s.push((ELEMENT*)&elem);
 
@@ -91,41 +107,147 @@ int BBSTree::insert(ELEMENT* e) {
 	}
 
 	while (s.isEmpty() == 0) {
-		ELEMENT elem;
+
 		s.pop(&elem);
 		BBST* b = (BBST*)elem.e;
-		if( b->lchild == t)
-		{
-			b->depth++;
-			if (b->depth >= 2)
-			{
-				if (t->depth == 1)
-				{
-					
-				}
-				else if (t->depth == -1)
-				{
+		b->ld = deep(b->lchild);
+		b->rd = deep(b->rchild);
 
-				}
+		t->ld = deep(t->lchild);
+		t->rd = deep(t->rchild);
+
+		int high_diff = b->ld - b->rd;
+		int low_diff = t->ld - t->rd;
+		if(high_diff == 2 && low_diff == 1)
+		{
+			BBST* f = (BBST*)b->parent;
+			if (f&&f->lchild == b)
+			{
+				f->lchild = t;
+			}
+			else if (f&&f->rchild == b)
+			{
+				f->rchild = t;
+			}
+			t->parent = f;
+
+			BBST* tr = t->rchild;
+			t->rchild = b;
+			b->parent = t;
+		
+			b->lchild = tr;
+			if (tr)
+			{
+				tr->parent = b;
 			}
 
-			t = b->lchild;
-		}
-		else if (b->rchild == t)
-		{
-			b->depth--;
-			if (b->depth <= -2)
+			if (b == mTree)
 			{
-				if (t->depth == 1)
-				{
-
-				}else if (t->depth == -1)
-				{
-
-				}
+				mTree = t;
 			}
-			t = b->rchild;
 		}
+		else if (high_diff == 2 && low_diff == -1)
+		{
+			BBST* f = (BBST*)b->parent;
+			if (f->lchild == b)
+			{
+				f->lchild = tc;
+			}
+			else if (f->rchild == b)
+			{
+				f->rchild = tc;
+			}
+			tc->parent = f;
+
+			t->parent = tc;
+			if (tc->lchild)
+			{
+				tc->lchild->parent = t;
+			}
+			
+			t->rchild = tc->lchild;
+
+			b->parent = tc;
+			if (tc->rchild)
+			{
+				tc->rchild->parent = b;
+			}
+			
+			b->lchild = tc->rchild;
+
+			tc->rchild = b;
+			tc->lchild = t;		
+
+			if (b == mTree)
+			{
+				mTree = tc;
+			}
+		}
+		else if (high_diff == -2 && low_diff == 1)
+		{
+			BBST* f = (BBST*)b->parent;
+			if (f&&f->lchild == b)
+			{
+				f->lchild = tc;
+			}
+			else if (f&&f->rchild == b)
+			{
+				f->rchild = tc;
+			}
+			tc->parent = f;
+
+			b->parent = tc;
+			b->rchild = tc->lchild;
+			if (tc->lchild)
+			{
+				tc->lchild->parent = b;
+			}
+
+			t->parent = tc;
+			t->lchild = tc->rchild;
+			if (tc->rchild)
+			{
+				tc->rchild->parent = t;
+			}
+			
+			tc->rchild = t;
+			tc->lchild = b;
+
+			if (b == mTree)
+			{
+				mTree = tc;
+			}
+		}
+		else if (high_diff == -2 && low_diff == -1)
+		{
+			BBST* f = (BBST*)b->parent;
+			if (f && f->lchild == b)
+			{
+				f->lchild = t;
+			}
+			else if (f && f->rchild == b)
+			{
+				f->rchild = t;
+			}
+			t->parent = f;
+
+			BBST* tl = t->lchild;
+			t->lchild = b;
+			b->parent = t;
+		
+			b->rchild = tl;
+			if (tl)
+			{
+				tl->parent = b;
+			}
+
+			if (b == mTree)
+			{
+				mTree = t;
+			}
+		}
+		tc = t;
+		t = b;
 	}
 
 	return 0;

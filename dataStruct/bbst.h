@@ -13,12 +13,16 @@ typedef struct  _BBSTREE
 	_BBSTREE* lchild;
 	_BBSTREE* rchild;
 
-	__int64 depth;
+	int ld;
+
+	int rd;
 
 	ELEMENT data;
 }BBST;
 
 #pragma pack()
+
+int deep(BBST* b);
 
 class BBSTree {
 public:
