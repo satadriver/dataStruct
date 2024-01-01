@@ -11,21 +11,21 @@
 
 typedef struct {
 
-	ELEMENT* element;
 	int vertex;
-	int weight;
 
+	ELEMENT* element;
+	
 }GRAPH;
 
 #pragma pack()
+
+GRAPH* genGraph(int num,int n,int v);
 
 
 class Graph {
 public:
 	Graph();
 	~Graph();
-
-	GRAPH* genGraph(int num, int init);
 
 	int BFT(GRAPH* graph, int num, List* list);
 

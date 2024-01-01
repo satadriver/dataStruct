@@ -36,6 +36,8 @@
 
 #include "matrix.h"
 #include "bbst.h"
+#include "dijkstra.h"
+#include "prim.h"
 
 using namespace std;
 
@@ -60,6 +62,10 @@ int main(int argc, char** argv)
 {
 	int ret = 0;
 
+	testPrim();
+
+	testDijkstra();
+
 	BBSTree bbst;
 	srand(0);
 	for (int i = 0; i < MAX_ARRAY_SIZE; i++)
@@ -69,8 +75,6 @@ int main(int argc, char** argv)
 		e.e = n;
 		bbst.insert(&e);
 	}
-
-
 
 	int matrix1[] = { 2,3,4,5,6,7,8,9,1 };
 	int matrix2[] = { 5,6,7,8,9,0,1,2,3 };
@@ -128,7 +132,7 @@ int main(int argc, char** argv)
 		0,0,1,1,0
 	};
 
-	GRAPH* g = graph.genGraph(100, 1);
+	GRAPH* g = genGraph(100,2,0);
 	//g->element = (ELEMENT*)buf;
 	List newlist;
 

@@ -1,1 +1,3 @@
-﻿  removeALSR.vcxproj -> C:\Users\ljg\dataStruct\Debug\removeALSR.exe
+﻿  main.cpp
+  LINK : 没有找到 C:\Users\ljg\dataStruct\Debug\removeALSR.exe 或上一个增量链接没有生成它；正在执行完全链接
+  removeALSR.vcxproj -> C:\Users\ljg\dataStruct\Debug\removeALSR.exe

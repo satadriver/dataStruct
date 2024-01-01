@@ -6,6 +6,7 @@
 #include "stack.h"
 #include "queue.h"
 #include "list.h"
+#include <time.h>
 
 
 Graph::Graph() {
@@ -17,7 +18,7 @@ Graph::~Graph() {
 
 }
 
-GRAPH* Graph::genGraph(int num, int init) {
+GRAPH* genGraph(int num,int n,int v) {
 
 	ELEMENT* element = new ELEMENT[num * num];
 	memset(element, 0, num * num * sizeof(ELEMENT));
@@ -25,33 +26,42 @@ GRAPH* Graph::genGraph(int num, int init) {
 	g->element = element;
 	g->vertex = num;
 
-	if (init)
-	{
-		srand(0);
+	//srand(time(0));
 
-		for (int i = 0; i < num; i++) {
-			for (int j = 0; j < num; j++) {
+	srand(0);
 
-				int t = rand() % 2;
-				if (t)
+	for (int i = 0; i < num; i++) {
+		for (int j = 0; j < num; j++) {
+			int idx = i * num + j;
+			if (i == j) {
+				g->element[idx].e = 0;
+			}
+			else {
+				int t = rand() % 256;
+				if ((n == 1) || (t % n))
 				{
-					int idx = i * num + j;
-					g->element[idx].e = 1;
+					if (t == 0) {
+						t = 256;
+					}
+					g->element[idx].e = t;
+				}
+				else {
+					g->element[idx].e = v;
 				}
 			}
+
 		}
-
-		for (int i = 0; i < num; i++) {
-			for (int j = 0; j < num; j++) {
-
-				int idx1 = i * num + j;
-				int idx2 = j * num + i;
-				g->element[idx2].e = g->element[idx1].e;
-
-			}
-		}
-
 	}
+
+	for (int i = 0; i < num; i++) {
+		for (int j = 0; j < num; j++) {
+
+			int idx1 = i * num + j;
+			int idx2 = j * num + i;
+			g->element[idx2].e = g->element[idx1].e;
+		}
+	}
+	
 	return g;
 }
 

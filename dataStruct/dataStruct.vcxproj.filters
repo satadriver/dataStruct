@@ -108,6 +108,12 @@
     <ClCompile Include="bbst.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Dijkstra.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="prim.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bubbleSort.h">
@@ -195,6 +201,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="matrix.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dijkstra.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="prim.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -153,6 +153,7 @@
     <ClCompile Include="bubbleSort.cpp" />
     <ClCompile Include="composite.cpp" />
     <ClCompile Include="crc.cpp" />
+    <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="fastSort.cpp" />
     <ClCompile Include="fibonacciSearch.cpp" />
     <ClCompile Include="graph.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="MergeSort.cpp" />
     <ClCompile Include="myLzss.cpp" />
+    <ClCompile Include="prim.cpp" />
     <ClCompile Include="primeNumber.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="queue.cpp" />
@@ -184,6 +186,7 @@
     <ClInclude Include="bubbleSort.h" />
     <ClInclude Include="composite.h" />
     <ClInclude Include="crc.h" />
+    <ClInclude Include="dijkstra.h" />
     <ClInclude Include="Element.h" />
     <ClInclude Include="fastSort.h" />
     <ClInclude Include="fibonacciSearch.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="matrix.h" />
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="mylzss.h" />
+    <ClInclude Include="prim.h" />
     <ClInclude Include="primeNumber.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="queue.h" />

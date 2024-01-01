@@ -5,6 +5,7 @@ C:\Users\ljg\dataStruct\dataStruct\BinarySearch.cpp;C:\Users\ljg\dataStruct\data
 C:\Users\ljg\dataStruct\dataStruct\bubbleSort.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\bubbleSort.obj
 C:\Users\ljg\dataStruct\dataStruct\composite.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\composite.obj
 C:\Users\ljg\dataStruct\dataStruct\crc.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\crc.obj
+C:\Users\ljg\dataStruct\dataStruct\Dijkstra.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\Dijkstra.obj
 C:\Users\ljg\dataStruct\dataStruct\fastSort.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\fastSort.obj
 C:\Users\ljg\dataStruct\dataStruct\fibonacciSearch.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\fibonacciSearch.obj
 C:\Users\ljg\dataStruct\dataStruct\graph.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\graph.obj
@@ -18,6 +19,7 @@ C:\Users\ljg\dataStruct\dataStruct\main.cpp;C:\Users\ljg\dataStruct\dataStruct\D
 C:\Users\ljg\dataStruct\dataStruct\matrix.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\matrix.obj
 C:\Users\ljg\dataStruct\dataStruct\MergeSort.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\MergeSort.obj
 C:\Users\ljg\dataStruct\dataStruct\myLzss.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\myLzss.obj
+C:\Users\ljg\dataStruct\dataStruct\prim.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\prim.obj
 C:\Users\ljg\dataStruct\dataStruct\primeNumber.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\primeNumber.obj
 C:\Users\ljg\dataStruct\dataStruct\MyString.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\MyString.obj
 C:\Users\ljg\dataStruct\dataStruct\queue.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\queue.obj
