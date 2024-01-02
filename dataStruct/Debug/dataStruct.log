@@ -1,3 +1,8 @@
-﻿  Dijkstra.cpp
-Debug\bbst.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
+﻿  knapsack.cpp
+C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(14,20): warning C4018: “<”: 有符号/无符号不匹配
+C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(18,10): warning C4018: “>=”: 有符号/无符号不匹配
+C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(18,28): warning C4018: “<”: 有符号/无符号不匹配
+C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(40,20): warning C4018: “<”: 有符号/无符号不匹配
+C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(46,20): warning C4018: “<”: 有符号/无符号不匹配
+C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(29,15): warning C4101: “i”: 未引用的局部变量
   dataStruct.vcxproj -> C:\Users\ljg\dataStruct\Debug\dataStruct.exe

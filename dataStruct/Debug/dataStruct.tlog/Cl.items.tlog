@@ -3,7 +3,7 @@ C:\Users\ljg\dataStruct\dataStruct\bbst.h;C:\Users\ljg\dataStruct\dataStruct\Deb
 C:\Users\ljg\dataStruct\dataStruct\binaryInsertSort.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\binaryInsertSort.obj
 C:\Users\ljg\dataStruct\dataStruct\BinarySearch.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\BinarySearch.obj
 C:\Users\ljg\dataStruct\dataStruct\bubbleSort.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\bubbleSort.obj
-C:\Users\ljg\dataStruct\dataStruct\composite.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\composite.obj
+C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\knapsack.obj
 C:\Users\ljg\dataStruct\dataStruct\crc.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\crc.obj
 C:\Users\ljg\dataStruct\dataStruct\Dijkstra.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\Dijkstra.obj
 C:\Users\ljg\dataStruct\dataStruct\fastSort.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\fastSort.obj
@@ -20,7 +20,7 @@ C:\Users\ljg\dataStruct\dataStruct\matrix.cpp;C:\Users\ljg\dataStruct\dataStruct
 C:\Users\ljg\dataStruct\dataStruct\MergeSort.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\MergeSort.obj
 C:\Users\ljg\dataStruct\dataStruct\myLzss.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\myLzss.obj
 C:\Users\ljg\dataStruct\dataStruct\prim.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\prim.obj
-C:\Users\ljg\dataStruct\dataStruct\primeNumber.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\primeNumber.obj
+C:\Users\ljg\dataStruct\dataStruct\numTheory.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\numTheory.obj
 C:\Users\ljg\dataStruct\dataStruct\MyString.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\MyString.obj
 C:\Users\ljg\dataStruct\dataStruct\queue.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\queue.obj
 C:\Users\ljg\dataStruct\dataStruct\random.cpp;C:\Users\ljg\dataStruct\dataStruct\Debug\random.obj

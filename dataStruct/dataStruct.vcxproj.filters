@@ -24,10 +24,10 @@
     <ClCompile Include="BinarySearch.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="primeNumber.cpp">
+    <ClCompile Include="numTheory.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="composite.cpp">
+    <ClCompile Include="knapsack.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="insertSort.cpp">
@@ -122,10 +122,10 @@
     <ClInclude Include="BinarySearch.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="primeNumber.h">
+    <ClInclude Include="numTheory.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="composite.h">
+    <ClInclude Include="knapsack.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="insertSort.h">
@@ -207,6 +207,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="prim.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UnionFindSet.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

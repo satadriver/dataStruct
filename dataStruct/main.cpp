@@ -8,8 +8,8 @@
 #include <math.h>
 
 #include "BinarySearch.h"
-#include "primeNumber.h"
-#include "composite.h"
+#include "numTheory.h"
+#include "knapsack.h"
 #include "bubbleSort.h"
 #include "insertSort.h"
 #include "mystring.h"
@@ -62,6 +62,8 @@ int main(int argc, char** argv)
 {
 	int ret = 0;
 
+	knapsackTest();
+
 	testPrim();
 
 	testDijkstra();
@@ -95,7 +97,7 @@ int main(int argc, char** argv)
 
 	Hash h;
 
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 	for (int i = 0; i < 0x1000; i++)
 	{
@@ -239,7 +241,7 @@ int main(int argc, char** argv)
 
 	int elements_counter = MAX_ARRAY_SIZE;
 
-	double bubbleSortTimes = 0;
+	unsigned long long bubbleSortTimes = 0;
 	for (int i = 0; i < TEST_TIMES; i++)
 	{
 		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
@@ -255,7 +257,7 @@ int main(int argc, char** argv)
 	}
 	bubbleSortTimes = bubbleSortTimes / freq.QuadPart;
 
-	double insertSortTimes = 0;
+	unsigned long long insertSortTimes = 0;
 	for (int i = 0; i < TEST_TIMES; i++)
 	{
 		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
@@ -272,7 +274,7 @@ int main(int argc, char** argv)
 	insertSortTimes = insertSortTimes / freq.QuadPart;
 
 
-	double selectionSortTimes = 0;
+	unsigned long long selectionSortTimes = 0;
 	for (int i = 0; i < TEST_TIMES; i++)
 	{
 		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
@@ -290,7 +292,7 @@ int main(int argc, char** argv)
 
 
 
-	double binaryInsertSortTimes = 0;
+	unsigned long long binaryInsertSortTimes = 0;
 	for (int i = 0; i < TEST_TIMES; i++)
 	{
 		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
@@ -307,7 +309,7 @@ int main(int argc, char** argv)
 	binaryInsertSortTimes = binaryInsertSortTimes / freq.QuadPart;
 
 
-	double shellSortTimes = 0;
+	unsigned long long shellSortTimes = 0;
 	for (int i = 0; i < TEST_TIMES; i++)
 	{
 		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
@@ -324,7 +326,7 @@ int main(int argc, char** argv)
 	shellSortTimes = shellSortTimes / freq.QuadPart;
 
 
-	double fastSortTimes = 0;
+	unsigned long long fastSortTimes = 0;
 	for (int i = 0; i < TEST_TIMES; i++)
 	{
 		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
@@ -342,7 +344,7 @@ int main(int argc, char** argv)
 
 
 
-	double mergeSortTimes = 0;
+	unsigned long long mergeSortTimes = 0;
 	for (int i = 0; i < TEST_TIMES; i++)
 	{
 		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
@@ -360,7 +362,7 @@ int main(int argc, char** argv)
 
 
 
-	double heapSortTimes = 0;
+	unsigned long long  heapSortTimes = 0;
 	for (int i = 0; i < TEST_TIMES; i++)
 	{
 		memcpy(arr, testarray, MAX_ARRAY_SIZE * sizeof(int));
@@ -380,15 +382,15 @@ int main(int argc, char** argv)
 
 
 	char szinfo[1024];
-	printf(" bubbleSort:%lf\r\n insertSort:%lf\r\n selectionSort:%lf\r\n "
-		"shellSort:%lf\r\n binaryInsertSort:%lf\r\n heapSort:%lf\r\n fastSort:%lf\r\n mergeSort:%lf\r\n",
+	printf(" bubbleSort:%lld\r\n insertSort:%lld\r\n selectionSort:%lld\r\n "\
+		"shellSort:%lld\r\n binaryInsertSort:%lld\r\n heapSort:%lld\r\n fastSort:%lld\r\n mergeSort:%lld\r\n",
 		bubbleSortTimes, insertSortTimes, selectionSortTimes,
 		shellSortTimes, binaryInsertSortTimes, heapSortTimes, fastSortTimes, mergeSortTimes);
 	//printf(szinfo);
 	//cout << szinfo;
 
 	//ret = getchar();
-	_getch();
+	ret =_getch();
 
 #endif
 

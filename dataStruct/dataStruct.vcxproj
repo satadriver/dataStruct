@@ -151,7 +151,7 @@
     <ClCompile Include="binaryInsertSort.cpp" />
     <ClCompile Include="BinarySearch.cpp" />
     <ClCompile Include="bubbleSort.cpp" />
-    <ClCompile Include="composite.cpp" />
+    <ClCompile Include="knapsack.cpp" />
     <ClCompile Include="crc.cpp" />
     <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="fastSort.cpp" />
@@ -168,7 +168,7 @@
     <ClCompile Include="MergeSort.cpp" />
     <ClCompile Include="myLzss.cpp" />
     <ClCompile Include="prim.cpp" />
-    <ClCompile Include="primeNumber.cpp" />
+    <ClCompile Include="numTheory.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="random.cpp" />
@@ -184,7 +184,7 @@
     <ClInclude Include="binaryInsertSort.h" />
     <ClInclude Include="BinarySearch.h" />
     <ClInclude Include="bubbleSort.h" />
-    <ClInclude Include="composite.h" />
+    <ClInclude Include="knapsack.h" />
     <ClInclude Include="crc.h" />
     <ClInclude Include="dijkstra.h" />
     <ClInclude Include="Element.h" />
@@ -201,7 +201,7 @@
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="mylzss.h" />
     <ClInclude Include="prim.h" />
-    <ClInclude Include="primeNumber.h" />
+    <ClInclude Include="numTheory.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="random.h" />
@@ -212,6 +212,7 @@
     <ClInclude Include="stack.h" />
     <ClInclude Include="template.h" />
     <ClInclude Include="tree.h" />
+    <ClInclude Include="UnionFindSet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
