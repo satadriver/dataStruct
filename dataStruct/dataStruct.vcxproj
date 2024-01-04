@@ -146,11 +146,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="aes.cpp" />
     <ClCompile Include="bbst.cpp" />
     <ClCompile Include="bbst.h" />
     <ClCompile Include="binaryInsertSort.cpp" />
     <ClCompile Include="BinarySearch.cpp" />
     <ClCompile Include="bubbleSort.cpp" />
+    <ClCompile Include="des.cpp" />
     <ClCompile Include="knapsack.cpp" />
     <ClCompile Include="crc.cpp" />
     <ClCompile Include="Dijkstra.cpp" />
@@ -172,6 +174,7 @@
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="random.cpp" />
+    <ClCompile Include="rc4.cpp" />
     <ClCompile Include="recursion.cpp" />
     <ClCompile Include="rsa.cpp" />
     <ClCompile Include="searchTree.cpp" />
@@ -182,9 +185,11 @@
     <ClCompile Include="tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="aes.h" />
     <ClInclude Include="binaryInsertSort.h" />
     <ClInclude Include="BinarySearch.h" />
     <ClInclude Include="bubbleSort.h" />
+    <ClInclude Include="des.h" />
     <ClInclude Include="knapsack.h" />
     <ClInclude Include="crc.h" />
     <ClInclude Include="dijkstra.h" />
@@ -206,6 +211,7 @@
     <ClInclude Include="MyString.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="random.h" />
+    <ClInclude Include="rc4.h" />
     <ClInclude Include="recursion.h" />
     <ClInclude Include="rsa.h" />
     <ClInclude Include="searchTree.h" />

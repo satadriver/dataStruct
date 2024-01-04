@@ -38,6 +38,9 @@
 #include "bbst.h"
 #include "dijkstra.h"
 #include "prim.h"
+#include "rc4.h"
+#include "des.h"
+#include "aes.h"
 
 using namespace std;
 
@@ -61,6 +64,11 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	int ret = 0;
+	aesTest();
+
+	desTest();
+
+	rc4_test();
 
 	knapsackTest();
 

@@ -117,6 +117,15 @@
     <ClCompile Include="searchTree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="rc4.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="des.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="aes.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bubbleSort.h">
@@ -216,6 +225,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="searchTree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="rc4.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="des.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="aes.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

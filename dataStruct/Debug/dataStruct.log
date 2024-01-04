@@ -1,8 +1,3 @@
-﻿  knapsack.cpp
-C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(14,20): warning C4018: “<”: 有符号/无符号不匹配
-C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(18,10): warning C4018: “>=”: 有符号/无符号不匹配
-C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(18,28): warning C4018: “<”: 有符号/无符号不匹配
-C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(40,20): warning C4018: “<”: 有符号/无符号不匹配
-C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(46,20): warning C4018: “<”: 有符号/无符号不匹配
-C:\Users\ljg\dataStruct\dataStruct\knapsack.cpp(29,15): warning C4101: “i”: 未引用的局部变量
+﻿  main.cpp
+C:\Users\ljg\dataStruct\dataStruct\main.cpp(392,7): warning C4101: “szinfo”: 未引用的局部变量
   dataStruct.vcxproj -> C:\Users\ljg\dataStruct\Debug\dataStruct.exe
