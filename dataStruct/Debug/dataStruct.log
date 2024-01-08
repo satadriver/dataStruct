@@ -1,3 +1,2 @@
-﻿  main.cpp
-C:\Users\ljg\dataStruct\dataStruct\main.cpp(392,7): warning C4101: “szinfo”: 未引用的局部变量
+﻿  floyd.cpp
   dataStruct.vcxproj -> C:\Users\ljg\dataStruct\Debug\dataStruct.exe

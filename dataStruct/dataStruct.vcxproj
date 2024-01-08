@@ -153,6 +153,7 @@
     <ClCompile Include="BinarySearch.cpp" />
     <ClCompile Include="bubbleSort.cpp" />
     <ClCompile Include="des.cpp" />
+    <ClCompile Include="floyd.cpp" />
     <ClCompile Include="knapsack.cpp" />
     <ClCompile Include="crc.cpp" />
     <ClCompile Include="Dijkstra.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="BinarySearch.h" />
     <ClInclude Include="bubbleSort.h" />
     <ClInclude Include="des.h" />
+    <ClInclude Include="floyd.h" />
     <ClInclude Include="knapsack.h" />
     <ClInclude Include="crc.h" />
     <ClInclude Include="dijkstra.h" />

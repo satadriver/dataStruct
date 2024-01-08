@@ -1,1 +1,7 @@
-﻿  emerson.vcxproj -> C:\Users\ljg\dataStruct\Debug\emerson.exe
+﻿  main.cpp
+C:\Users\ljg\dataStruct\emerson\main.cpp(74,16): warning C4309: “=”: 截断常量值
+C:\Users\ljg\dataStruct\emerson\main.cpp(75,16): warning C4309: “=”: 截断常量值
+C:\Users\ljg\dataStruct\emerson\main.cpp(77,16): warning C4309: “=”: 截断常量值
+C:\Users\ljg\dataStruct\emerson\main.cpp(78,16): warning C4309: “=”: 截断常量值
+  LINK : 没有找到 C:\Users\ljg\dataStruct\Debug\emerson.exe 或上一个增量链接没有生成它；正在执行完全链接
+  emerson.vcxproj -> C:\Users\ljg\dataStruct\Debug\emerson.exe

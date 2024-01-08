@@ -126,6 +126,9 @@
     <ClCompile Include="aes.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="floyd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bubbleSort.h">
@@ -234,6 +237,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="aes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="floyd.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

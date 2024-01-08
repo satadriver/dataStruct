@@ -41,6 +41,7 @@
 #include "rc4.h"
 #include "des.h"
 #include "aes.h"
+#include "floyd.h"
 
 using namespace std;
 
@@ -64,6 +65,8 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	int ret = 0;
+	floydTest();
+
 	aesTest();
 
 	desTest();
