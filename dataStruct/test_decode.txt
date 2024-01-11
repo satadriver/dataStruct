@@ -1,0 +1,673 @@
+CSDNÊ×Ò³
+²©¿Í
+ÏÂÔØ
+Ñ§Ï°
+ÉçÇø
+GitCode
+InsCode
+LZSS
+ ËÑË÷
+
+»áÔ±ÖÐÐÄ 
+ÏûÏ¢
+ÀúÊ·
+´´×÷ÖÐÐÄ
+·¢²¼
+ÎÞËðÑ¹ËõËã·¨×¨Ìâ¡ª¡ªLZSSËã·¨ÊµÏÖ
+
+½ðÐ¡Í¥
+
+ÓÚ 2019-12-28 12:17:44 ·¢²¼
+
+5163
+ ÊÕ²Ø 31
+·ÖÀà×¨À¸£º ÎÞËðÑ¹ËõËã·¨×¨Ìâ ÎÄÕÂ±êÇ©£º LZSS ÎÞËðÑ¹Ëõ
+°æÈ¨
+
+ÎÞËðÑ¹ËõËã·¨×¨Ìâ
+×¨À¸ÊÕÂ¼¸ÃÄÚÈÝ
+4 ÆªÎÄÕÂ16 ¶©ÔÄ
+¶©ÔÄ×¨À¸
+Ò»¡¢Ç°ÑÔ
+±¾ÎÄÊÇ»ùÓÚÎÒµÄÉÏÒ»Æª²©¿Í¡¶ÎÞËðÑ¹ËõËã·¨×¨Ìâ¡ª¡ªÎÞËðÑ¹ËõËã·¨½éÉÜ¡·µÄ»ù´¡ÉÏÀ´ÊµÏÖµÄ£¬²©¿ÍÁ´½Óhttps://blog.csdn.net/qq_34254642/article/details/103651815£¬ÕâÒ»Æªµ±ÖÐÊµÏÖ»ù±¾µÄLZSSËã·¨¹¦ÄÜ£¬ÏÈ²»×ö¸Ä½ø£¬ËùÒÔËã·¨Ð§ÂÊ±È½ÏµÍ£¬µ«ÊÇ±ãÓÚÀí½â¡£Ð´ÁËPythonºÍCÁ½¸ö°æ±¾£¬Á½ÖÖÓïÑÔµÄ´úÂë½á¹¹ÊÇÒ»ÑùµÄ£¬´úÂëÖÐ¶¼ÓÐÏê¾¡µÄ×¢ÊÍ¡£ÊµÏÖÁË¶ÔÈÎÒâÎÄ¼þµÄÑ¹ËõºÍ½âÑ¹¹¦ÄÜ¡£
+
+ 
+
+¶þ¡¢LZSSËã·¨ÊµÏÖ
+PythonÊµÏÖ
+
+import ctypes
+import os
+ 
+class LZSS():
+    def __init__(self, preBufSizeBits):
+        self.threshold = 2  #³¤¶È´óÓÚµÈÓÚ2µÄÆ¥Åä´®²ÅÓÐ±ØÒªÑ¹Ëõ
+        self.preBufSizeBits = preBufSizeBits  #Ç°Ïò»º³åÇøÕ¼ÓÃµÄ±ÈÌØÎ»
+        self.windowBufSizeBits = 16 - self.preBufSizeBits   #»¬¶¯´°¿ÚÕ¼ÓÃµÄ±ÈÌØÎ»
+ 
+        self.preBufSize = (1 << self.preBufSizeBits) - 1 + self.threshold #Í¨¹ýÕ¼ÓÃµÄ±ÈÌØÎ»¼ÆËã»º³åÇø´óÐ¡
+        self.windowBufSize = (1 << self.windowBufSizeBits) - 1 + self.threshold   #Í¨¹ýÕ¼ÓÃµÄ±ÈÌØÎ»¼ÆËã»¬¶¯´°¿Ú´óÐ¡
+ 
+        self.preBuf = b''   #Ç°Ïò»º³åÇø
+        self.windowBuf = b''    #»¬¶¯´°¿Ú
+        self.matchString = b''  #Æ¥Åä´®
+        self.matchIndex = 0     #»¬¶¯´°¿ÚÆ¥Åä´®ÆðÊ¼ÏÂ±ê
+ 
+    #ÎÄ¼þÑ¹Ëõ
+    def LZSS_encode(self, readfilename, writefilename):
+ 
+        fread = open(readfilename, "rb")
+        fwrite = open(writefilename, "wb")
+        restorebuff = b''   #´ýÐ´ÈëµÄÊý¾Ý»º´æÇø£¬ÂúÒ»×éÊý¾ÝÐ´ÈëÒ»´ÎÎÄ¼þ
+        itemnum = 0     #8¸öÏîÄ¿ÎªÒ»×é£¬ÓÃÀ´Í³¼Æµ±Ç°ÏîÄ¿Êý
+        signbits = 0    #±ê¼Ç×Ö½Ú
+ 
+        self.preBuf = fread.read(self.preBufSize)   #¶ÁÈ¡Êý¾ÝÌîÂúÇ°Ïò»º³åÇø
+ 
+        # Ç°Ïò»º³åÇøÃ»Êý¾Ý¿É²Ù×÷ÁË¼´ÎªÑ¹Ëõ½áÊø
+        while self.preBuf != b'':
+            self.matchString = b''
+            self.matchIndex = -1
+            #ÔÚ»¬¶¯´°¿ÚÖÐÑ°ÕÒ×î³¤µÄÆ¥Åä´®
+            for i in range(self.threshold, len(self.preBuf) + 1):
+                index = self.windowBuf.find(self.preBuf[0:i])
+                if index != -1:
+                    self.matchString = self.preBuf[0:i]
+                    self.matchIndex = index
+                else:
+                    break
+            #Èç¹ûÃ»ÕÒµ½Æ¥Åä´®»òÕßÆ¥Åä³¤¶ÈÎª1£¬Ö±½ÓÊä³öÔ­Ê¼Êý¾Ý
+            if self.matchIndex == -1:
+                self.matchString = self.preBuf[0:1]
+                restorebuff += self.matchString
+            else:
+                restorebuff += bytes(ctypes.c_uint16(self.matchIndex * (1 << self.preBufSizeBits) + len(self.matchString) - self.threshold))
+                signbits += (1 << (7 - itemnum))
+            #²Ù×÷ÍêÒ»¸öÏîÄ¿+1
+            itemnum += 1
+            #ÏîÄ¿Êý´ïµ½8ÁË£¬ËµÃ÷×öÍêÁËÒ»×éÑ¹Ëõ£¬½«ÕâÒ»×éÊý¾ÝÐ´ÈëÎÄ¼þ
+            if itemnum >= 8:
+                writebytes = bytes(ctypes.c_uint8(signbits)) + restorebuff
+                fwrite.write(writebytes);
+                itemnum = 0
+                signbits = 0
+                restorebuff = b''
+ 
+            self.preBuf = self.preBuf[len(self.matchString):]  #½«¸Õ¸ÕÆ¥Åä¹ýµÄÊý¾ÝÒÆ³öÇ°Ïò»º³åÇø
+            self.windowBuf += self.matchString  #½«¸Õ¸ÕÆ¥Åä¹ýµÄÊý¾Ý¼ÓÈë»¬¶¯´°¿Ú
+            if len(self.windowBuf) > self.windowBufSize:  #½«¶à³öµÄÊý¾Ý´ÓÇ°Ãæ¿ªÊ¼ÒÆ³ö»¬¶¯´°¿Ú
+                self.windowBuf = self.windowBuf[(len(self.windowBuf) - self.windowBufSize):]
+ 
+            self.preBuf += fread.read(self.preBufSize - len(self.preBuf))  #¶ÁÈ¡Êý¾Ý²¹³äÇ°Ïò»º³åÇø
+ 
+        if restorebuff != b'':  #ÎÄ¼þ×îºó¿ÉÄÜ²»ÂúÒ»×éÊý¾ÝÁ¿£¬Ö±½ÓÐ´µ½ÎÄ¼þÀï
+            writebytes = bytes(ctypes.c_uint8(signbits)) + restorebuff
+            fwrite.write(writebytes);
+ 
+        fread.close()
+        fwrite.close()
+ 
+        return os.path.getsize(writefilename)
+ 
+    #ÎÄ¼þ½âÑ¹
+    def LZSS_decode(self, readfilename, writefilename):
+        fread = open(readfilename, "rb")
+        fwrite = open(writefilename, "wb")
+ 
+        self.windowBuf = b''
+        self.preBuf = fread.read(1)  #ÏÈ¶ÁÒ»¸ö±ê¼Ç×Ö½ÚÒÔÈ·¶¨½ÓÏÂÀ´ÔõÃ´½âÑ¹Êý¾Ý
+ 
+        while self.preBuf != b'':
+            for i in range(8):  #8¸öÏîÄ¿ÎªÒ»×é½øÐÐ½âÑ¹
+                # ´Ó±ê¼Ç×Ö½ÚµÄ×î¸ßÎ»¿ªÊ¼½âÎö£¬0´ú±íÔ­Ê¼Êý¾Ý£¬1´ú±í(ÏÂ±ê£¬Æ¥ÅäÊý)½âÎö
+                if self.preBuf[0] & (1 << (7 - i)) == 0:
+                    temp = fread.read(1)
+                    fwrite.write(temp)
+                    self.windowBuf += temp
+                else:
+                    temp = fread.read(2)
+                    start = ((temp[0] + temp[1] * 256) // (1 << self.preBufSizeBits))  #È¡³ö¸ßÎ»µÄ»¬¶¯´°¿ÚÆ¥Åä´®ÏÂ±ê
+                    end = start + temp[0] % (1 << self.preBufSizeBits) + self.threshold  #È¡³öµÍÎ»µÄÆ¥Åä³¤¶È
+                    fwrite.write(self.windowBuf[start:end])  #½«½âÑ¹³öµÄÊý¾ÝÐ´ÈëÎÄ¼þ
+                    self.windowBuf += self.windowBuf[start:end]  #½«½âÑ¹´¦µÄÊý¾ÝÍ¬²½Ð´Èëµ½»¬¶¯´°¿Ú
+ 
+                if len(self.windowBuf) > self.windowBufSize:  #ÏÞÖÆ»¬¶¯´°¿Ú´óÐ¡
+                    self.windowBuf = self.windowBuf[(len(self.windowBuf) - self.windowBufSize):]
+ 
+            self.preBuf = fread.read(1)  #¶ÁÈ¡ÏÂÒ»×éÊý¾ÝµÄ±êÖ¾×Ö½Ú
+ 
+        fread.close()
+        fwrite.close()
+ 
+if __name__ == '__main__':
+    Demo = LZSS(7)
+    Demo.LZSS_encode("115.log", "encode")
+    Demo.LZSS_decode("encode", "decode")
+ 
+ 
+ 
+ 
+
+CÊµÏÖ
+
+#include <string.h>
+#include <stdio.h>
+ 
+#define BYTE unsigned char
+#define WORD unsigned short
+#define DWORD unsigned int
+ 
+#define TRUE 1
+#define FALSE 0
+ 
+BYTE bThreshold;  //Ñ¹ËõãÐÖµ¡¢³¤¶È´óÓÚµÈÓÚ2µÄÆ¥Åä´®²ÅÓÐ±ØÒªÑ¹Ëõ
+ 
+BYTE bPreBufSizeBits;  //Ç°Ïò»º³åÇøÕ¼ÓÃµÄ±ÈÌØÎ»
+BYTE bWindowBufSizeBits;  //»¬¶¯´°¿ÚÕ¼ÓÃµÄ±ÈÌØÎ»
+ 
+WORD wPreBufSize;  //Í¨¹ýÕ¼ÓÃµÄ±ÈÌØÎ»¼ÆËã»º³åÇø´óÐ¡
+WORD wWindowBufSize;  //Í¨¹ýÕ¼ÓÃµÄ±ÈÌØÎ»¼ÆËã»¬¶¯´°¿Ú´óÐ¡
+ 
+BYTE bPreBuf[1024];  //Ç°Ïò»º³åÇø
+BYTE bWindowBuf[8192];  //»¬¶¯´°¿Ú
+BYTE bMatchString[1024];  //Æ¥Åä´®
+WORD wMatchIndex;  //»¬¶¯´°¿ÚÆ¥Åä´®ÆðÊ¼ÏÂ±ê
+ 
+BYTE FindSameString(BYTE *pbStrA, WORD wLenA, BYTE *pbStrB, WORD wLenB, WORD *pwMatchIndex);  //²éÕÒÆ¥Åä´®
+DWORD LZSS_encode(char *pbReadFileName, char *pbWriteFileName);  //ÎÄ¼þÑ¹Ëõ
+DWORD LZSS_decode(char *pbReadFileName, char *pbWriteFileName);  //ÎÄ¼þ½âÑ¹
+ 
+int main()
+{
+	bThreshold = 2;
+	bPreBufSizeBits = 6;
+	bWindowBufSizeBits = 16 - bPreBufSizeBits;
+	wPreBufSize = ((WORD)1 << bPreBufSizeBits) - 1 + bThreshold;
+	wWindowBufSize = ((WORD)1 << bWindowBufSizeBits) - 1 + bThreshold;
+ 
+	LZSS_encode("115.log", "encode");
+	LZSS_decode("encode", "decode");
+	return 0;
+}
+ 
+BYTE FindSameString(BYTE *pbStrA, WORD wLenA, BYTE *pbStrB, WORD wLenB, WORD *pwMatchIndex)
+{
+	WORD i, j;
+ 
+	for (i = 0; i < wLenA; i++)
+	{
+		if ((wLenA - i) < wLenB)
+		{
+			return FALSE;
+		}
+ 
+		if (pbStrA[i] == pbStrB[0])
+		{
+			for (j = 1; j < wLenB; j++)
+			{
+				if (pbStrA[i + j] != pbStrB[j])
+				{
+					break;
+				}
+			}
+ 
+			if (j == wLenB)
+			{
+				*pwMatchIndex = i;
+				return TRUE;
+			}
+		}
+	}
+	return FALSE;
+}
+ 
+DWORD LZSS_encode(char *pbReadFileName, char *pbWriteFileName)
+{
+	WORD i, j;
+	WORD wPreBufCnt = 0;
+	WORD wWindowBufCnt = 0;
+	WORD wMatchStringCnt = 0;
+	BYTE bRestoreBuf[17] = { 0 };
+	BYTE bRestoreBufCnt = 1;
+	BYTE bItemNum = 0;
+	FILE *pfRead = fopen(pbReadFileName, "rb");
+	FILE *pfWrite = fopen(pbWriteFileName, "wb");
+ 
+	//Ç°Ïò»º³åÇøÃ»Êý¾Ý¿É²Ù×÷ÁË¼´ÎªÑ¹Ëõ½áÊø
+	while (wPreBufCnt += fread(&bPreBuf[wPreBufCnt], 1, wPreBufSize - wPreBufCnt, pfRead))
+	{
+		wMatchStringCnt = 0;  //¸Õ¿ªÊ¼Ã»ÓÐÆ¥Åäµ½Êý¾Ý
+		wMatchIndex = 0xFFFF;  //³õÊ¼»¯Ò»¸ö×î´óÖµ£¬±íÊ¾Ã»Æ¥Åäµ½
+ 
+		for (i = bThreshold; i <= wPreBufCnt; i++)  //ÔÚ»¬¶¯´°¿ÚÖÐÑ°ÕÒ×î³¤µÄÆ¥Åä´®
+		{
+			if (TRUE == FindSameString(bWindowBuf, wWindowBufCnt, bPreBuf, i, &wMatchIndex))
+			{
+				memcpy(bMatchString, &bWindowBuf[wMatchIndex], i);
+				wMatchStringCnt = i;
+			}
+			else
+			{
+				break;
+			}
+		}
+ 
+		//Èç¹ûÃ»ÕÒµ½Æ¥Åä´®»òÕßÆ¥Åä³¤¶ÈÎª1£¬Ö±½ÓÊä³öÔ­Ê¼Êý¾Ý
+		if ((0xFFFF == wMatchIndex))
+		{
+			wMatchStringCnt = 1;
+			bMatchString[0] = bPreBuf[0];
+			bRestoreBuf[bRestoreBufCnt++] = bPreBuf[0];
+		}
+		else
+		{
+			j = (wMatchIndex << bPreBufSizeBits) + wMatchStringCnt - bThreshold;
+			bRestoreBuf[bRestoreBufCnt++] = (BYTE)j;
+			bRestoreBuf[bRestoreBufCnt++] = (BYTE)(j >> 8);
+			bRestoreBuf[0] |= (BYTE)1 << (7 - bItemNum);
+		}
+ 
+		bItemNum += 1;  //²Ù×÷ÍêÒ»¸öÏîÄ¿+1
+ 
+		if (bItemNum >= 8)  //ÏîÄ¿Êý´ïµ½8ÁË£¬ËµÃ÷×öÍêÁËÒ»×éÑ¹Ëõ£¬½«ÕâÒ»×éÊý¾ÝÐ´ÈëÎÄ¼þ£¬Í¬Ê±Çå¿Õ»º´æ
+		{
+			fwrite(bRestoreBuf, 1, bRestoreBufCnt, pfWrite);
+			bItemNum = 0;
+			memset(bRestoreBuf, 0, sizeof(bRestoreBuf));
+			bRestoreBufCnt = 1;
+		}
+ 
+		//½«¸Õ¸ÕÆ¥Åä¹ýµÄÊý¾ÝÒÆ³öÇ°Ïò»º³åÇø
+		for (i = 0; i < (wPreBufCnt - wMatchStringCnt); i++)
+		{
+			bPreBuf[i] = bPreBuf[i + wMatchStringCnt];
+		}
+		wPreBufCnt -= wMatchStringCnt;
+ 
+		//Èç¹û»¬¶¯´°¿Ú½«ÒªÒç³ö£¬ÏÈÌáÇ°°ÑÇ°ÃæµÄ²¿·ÖÊý¾ÝÒÆ³ö´°¿Ú
+		if ((wWindowBufCnt + wMatchStringCnt) >  wWindowBufSize)
+		{
+			j = ((wWindowBufCnt + wMatchStringCnt) - wWindowBufSize);
+			for (i = 0; i < (wWindowBufSize - j); i++)
+			{
+				bWindowBuf[i] = bWindowBuf[i + j];
+			}
+			wWindowBufCnt = wWindowBufSize - wMatchStringCnt;
+		}
+ 
+		//½«¸Õ¸ÕÆ¥Åä¹ýµÄÊý¾Ý¼ÓÈë»¬¶¯´°¿Ú
+		memcpy((BYTE *)&bWindowBuf[wWindowBufCnt], bMatchString, wMatchStringCnt);
+		wWindowBufCnt += wMatchStringCnt;
+	}
+ 
+	//ÎÄ¼þ×îºó¿ÉÄÜ²»ÂúÒ»×éÊý¾ÝÁ¿£¬Ö±½ÓÐ´µ½ÎÄ¼þÀï
+	if (0 != bRestoreBufCnt)
+	{
+		fwrite(bRestoreBuf, 1, bRestoreBufCnt, pfWrite);
+	}
+ 
+	fclose(pfRead);
+	fclose(pfWrite);
+ 
+	return 0;
+}
+ 
+DWORD LZSS_decode(char *pbReadFileName, char *pbWriteFileName)
+{
+	WORD i, j;
+	BYTE bItemNum;
+	BYTE bFlag;
+	WORD wStart;
+	WORD wMatchStringCnt = 0;
+	WORD wWindowBufCnt = 0;
+	FILE *pfRead = fopen(pbReadFileName, "rb");
+	FILE *pfWrite = fopen(pbWriteFileName, "wb");
+ 
+	while (0 != fread(&bFlag, 1, 1, pfRead))  //ÏÈ¶ÁÒ»¸ö±ê¼Ç×Ö½ÚÒÔÈ·¶¨½ÓÏÂÀ´ÔõÃ´½âÑ¹Êý¾Ý
+	{
+		for (bItemNum = 0; bItemNum < 8; bItemNum++)  //8¸öÏîÄ¿ÎªÒ»×é½øÐÐ½âÑ¹
+		{
+			//´Ó±ê¼Ç×Ö½ÚµÄ×î¸ßÎ»¿ªÊ¼½âÎö£¬0´ú±íÔ­Ê¼Êý¾Ý£¬1´ú±í(ÏÂ±ê£¬Æ¥ÅäÊý)½âÎö
+			if (0 == (bFlag & ((BYTE)1 << (7 - bItemNum))))
+			{
+				if (fread(bPreBuf, 1, 1, pfRead) < 1)
+				{
+					goto LZSS_decode_out_;
+				}
+				fwrite(bPreBuf, 1, 1, pfWrite);
+				bMatchString[0] = bPreBuf[0];
+				wMatchStringCnt = 1;
+			}
+			else
+			{
+				if (fread(bPreBuf, 1, 2, pfRead) < 2)
+				{
+					goto LZSS_decode_out_;
+				}
+				//È¡³ö¸ßÎ»µÄ»¬¶¯´°¿ÚÆ¥Åä´®ÏÂ±ê
+				wStart = ((WORD)bPreBuf[0] | ((WORD)bPreBuf[1] << 8)) / ((WORD)1 << bPreBufSizeBits);  
+				//È¡³öµÍÎ»µÄÆ¥Åä³¤¶È
+				wMatchStringCnt = ((WORD)bPreBuf[0] | ((WORD)bPreBuf[1] << 8)) % ((WORD)1 << bPreBufSizeBits) + bThreshold;
+				//½«½âÑ¹³öµÄÊý¾ÝÐ´ÈëÎÄ¼þ
+				fwrite(&bWindowBuf[wStart], 1, wMatchStringCnt, pfWrite);
+				memcpy(bMatchString, &bWindowBuf[wStart], wMatchStringCnt);
+			}
+ 
+			//Èç¹û»¬¶¯´°¿Ú½«ÒªÒç³ö£¬ÏÈÌáÇ°°ÑÇ°ÃæµÄ²¿·ÖÊý¾ÝÒÆ³ö´°¿Ú
+			if ((wWindowBufCnt + wMatchStringCnt) > wWindowBufSize)
+			{
+				j = (wWindowBufCnt + wMatchStringCnt) - wWindowBufSize;
+				for (i = 0; i < wWindowBufCnt - j; i++)
+				{
+					bWindowBuf[i] = bWindowBuf[i + j];
+				}
+				wWindowBufCnt -= j;
+			}
+ 
+			//½«½âÑ¹´¦µÄÊý¾ÝÍ¬²½Ð´Èëµ½»¬¶¯´°¿Ú
+			memcpy(&bWindowBuf[wWindowBufCnt], bMatchString, wMatchStringCnt);
+			wWindowBufCnt += wMatchStringCnt;
+		}
+	}
+ 
+LZSS_decode_out_:
+ 
+	fclose(pfRead);
+	fclose(pfWrite);
+	return 0;
+}
+ 
+Èý¡¢ÐÔÄÜ·ÖÎö
+ÒòÎª´úÂë¶¼ÊÇ×î»ù±¾µÄÊµÏÖ£¬²¢Ã»ÓÐ¶ÔÆ¥Åä´®ËÑË÷º¯Êý½øÐÐÓÅ»¯£¬ËùÒÔÊ±¼äÐÔÄÜÉÏ±È½ÏµÍ£¬ÎÒÃÇÕâÀïÖ»¶Ô±ÈÑ¹ËõÇ°ºóÎÄ¼þµÄ×Ö½Ú´óÐ¡¡£ÓÐÒ»µãÒªÌáµ½µÄ¾ÍÊÇ´úÂëÀïÃæÓÐ¸öthreshold²ÎÊýÎª2£¬ÒâË¼ÊÇÆ¥Åä´®´óÓÚµÈÓÚ2²ÅÓÐ±ØÒª½øÐÐÑ¹Ëõ£¬ÒòÎª£¨Î»ÖÃ£¬³¤¶È£©Õâ¸ö±ê¼ÇµÄÊä³ö³¤¶ÈÎª16±ÈÌØÎ»£¬ËùÒÔÆ¥Åä´®Ö»ÓÐ1×Ö½ÚÒ²ÓÃÕâÖÖ·½Ê½±íÊ¾µÄ»°ÏÔÈ»Æð²»µ½Ñ¹ËõÐ§¹û¡£´ó¼Ò»¹¿ÉÒÔ·¢ÏÖÒ»¸öÎÊÌâ£¬Ð´ÈëÎÄ¼þÊ±Æ¥Åä³¤¶È²¢²»ÊÇÊµ¼ÊÖµ£¬ÒòÎª0ºÍ1µÄÆ¥Åä³¤¶ÈÊÇ²»´æÔÚµÄ£¬ËùÒÔ¸É´à°Ñ0µ±×ö2£¬1µ±×ö3ÕâÑùÀ´¿´´ý£¬¾Í¿ÉÒÔ°ÑÆ¥Åä³¤¶ÈÀ©³äÁ½¸ö³¤¶ÈÁË¡£
+
+È·¶¨ÁË£¨Î»ÖÃ£¬³¤¶È£©µÄÊä³ö¸ñÊ½ÎªÁ½¸ö×Ö½Úºó£¬½ÓÏÂÀï¾ÍÊÇÔõÃ´Ñ¡È¡¡°Î»ÖÃ¡±ºÍ¡°³¤¶È¡±¸÷×ÔËùÓ¦¸ÃÕ¼ÓÃµÄ±ÈÌØÎ»ÊÇ¶àÉÙÁË£¬ÎÒÃÇ¿ÉÒÔÉèÖÃÎª£¨8,8£©£¬£¨9,7£©£¬£¨10,6£©µÈµÈÕâÑùµÄ×éºÏ£¬µ«ÊÇ¸ø¡°Î»ÖÃ¡±ÉèÖÃµÄ±ÈÌØÎ»Ò»¶¨Òª´óÓÚµÈÓÚ¡°³¤¶È¡±µÄ±ÈÌØÎ»£¬Ô­ÒòÊÇ»¬¶¯´°¿Ú´óÐ¡Òª´óÓÚµÈÓÚÇ°Ïò»º³åÇø´óÐ¡£¬²»È»Ã»ÓÐÒâÒå¡£¶ÔÓÚÏàÍ¬µÄÎÄ¼þ£¬ÕâÁ½¸ö²ÎÊýÑ¡È¡²»Í¬£¬ÄÇÃ´Ñ¹ËõÂÊÒ²»á²»Í¬£¬ÏÂÃæÊÇÎÒ¶ÔÒ»¸ölogÎÄ¼þÑ¡È¡²»Í¬µÄ²ÎÊý½øÐÐÑ¹ËõºóµÄÎÄ¼þ´óÐ¡¶Ô±ÈÍ¼£¬Í¼ÖÐpreBufSizeBits¾ÍÊÇÖ¸µÄ¡°³¤¶È¡±ËùÕ¼µÄ±ÈÌØÎ»Êý£º
+
+
+
+ Î´Ñ¹ËõµÄÔ­Ê¼ÎÄ¼þ´óÐ¡ÊÇ5.06MB£¬¿ÉÒÔÇåÎúµÄ¿´³öpreBufSizeBits²¢²»ÊÇÔ½Ð¡Ô½ºÃ£¬Ò²²»ÊÇÔ½´óÔ½ºÃ£¬ÒòÎªÈç¹ûpreBufSizeBitsÐ¡ÁËµÄ»°ÄÇÃ´Ç°Ïò»º³åÇøÒ²¾ÍÐ¡ÁË£¬Ò»´ÎÄÜÆ¥ÅäµÄÊý¾Ý´®¾ÍÐ¡ÁË£»Èç¹ûpreBufSizeBits´óÁËµÄ»°ÄÇÃ´ËäÈ»Ç°Ïò»º³åÇø±ä´óÁË£¬µ«ÊÇ»¬¶¯´°¿Ú»áËõÐ¡£¬Êý¾Ý´®µÄÆ¥Åä·¶Î§¾Í±äÐ¡ÁË¡£ËùÒÔÐèÒªÑ¡ÔñÒ»¸öºÏÊÊµÄÖµ²ÅÄÜÊ¹ÎÄ¼þÑ¹ËõÐÔÄÜ×îºÃ¡£
+
+Ëã·¨ÄÚ²¿µÄ¶Ô±È¾Íµ½ÕâÀïÁË£¬½ÓÏÂÀ´ÎÒÃÇºÍµ±Ç°Á÷ÐÐµÄZIPºÍRAR½øÐÐÑ¹ËõÐÔÄÜ¶Ô±È£¬ËäÈ»¸Ð¾õ×Ô²»Á¿Á¦£¬µ«ÊÇÓÐ¶Ô±È²ÅÓÐ½ø²½Âï¡£
+
+
+
+115.logÊÇÔ­Ê¼ÎÄ¼þ£¬encode2µ½encode8ÆäÊµ¾ÍÊÇÉÏ±ßÐÔÄÜÍ¼Àï²»Í¬preBufSizeBitsÊ±Éú³ÉµÄÑ¹ËõÎÄ¼þ£¬decode2µ½decode8ÊÇ¶ÔÓ¦ÔÙ½âÑ¹Ëõ³öÀ´µÄÎÄ¼þ¡£115.rarÊÇÓÃµçÄÔÉÏRARÈí¼þÑ¹ËõµÄÎÄ¼þ£¬115.zipÊÇÓÃµçÄÔÉÏZIPÈí¼þÑ¹ËõµÄÎÄ¼þ¡£ÎÒÃÇÕâ¸öËã·¨×îºÃµÄÐÔÄÜÊÇÑ¹Ëõµ½ÁË197KB£¬ºÍZIPµÄ161KB²î¾à²»ÊÇÌØ±ð´ó£¬ºÍRAR¾Í²îÁËÏàµ±Ò»´ó½ØÁË¡£ ÒòÎªZIPÆäÊµÒ²ÊÇÀàËÆµÄ»¬¶¯´°¿ÚÆ¥ÅäÑ¹Ëõ£¬ËùÒÔ½ÓÏÂÀ´ÓÅ»¯LZSSËã·¨µÄ»°£¬»¹ÊÇÒª¾¡Á¿ÏòZIPµÄÐÔÄÜ¿´Æë¡£
+
+ËÄ¡¢×Ü½á
+½ÓÏÂÀ´»¹»á¼ÌÐøË¼¿¼LZSSËã·¨µÄ¸Ä½ø£¬°üÀ¨Ñ¹ËõÂÊºÍÑ¹Ëõ/½âÑ¹Ê±¼äµÄÐÔÄÜ£¬ÒòÎªÎÒ±¾ÈËÊÇÇ¶ÈëÊ½¹¤³ÌÊ¦£¬ËùÒÔ»áË¼¿¼ÊµÏÖÔÚÇ¶ÈëÊ½Éè±¸ÉÏÈçºÎÔËÓÃÊý¾ÝÑ¹Ëõ£¬ÔÚÍøÉÏ²éÕÒ×ÊÁÏµÄÊ±ºòÒ²ÕÒµ½ÁËÒ»Ð©¿ªÔ´µÄÑ¹Ëõ¿â£¬µ«ÊÇÊ¹ÓÃÉÏ¿ÉÄÜ»á´æÔÚÒ»Ð©ÎÊÌâºÍÏÞÖÆ£¬µ±È»×îºÃÊÇÎÒÃÇÊ¹ÓÃµÄËã·¨ÎÒÃÇÊÇÖª¸ùÖªµ×µÄ£¬ÕâÑùÎÒÃÇ¾Í¿ÉÒÔ¸ù¾ÝÏîÄ¿µÄÐèÇóºÍÌØµã½øÐÐÁé»îµÄÐÞ¸ÄºÍÔËÓÃ£¬³öÁËÊ²Ã´ÎÊÌâÒ²²»»áÌ«»Å¡£
+
+ÎÄÕÂÖªÊ¶µãÓë¹Ù·½ÖªÊ¶µµ°¸Æ¥Åä£¬¿É½øÒ»²½Ñ§Ï°Ïà¹ØÖªÊ¶
+Ëã·¨¼¼ÄÜÊ÷Ê×Ò³¸ÅÀÀ45521 ÈËÕýÔÚÏµÍ³Ñ§Ï°ÖÐ
+
+½ðÐ¡Í¥
+¹Ø×¢
+
+7
+
+
+31
+´òÉÍ
+
+5
+
+×¨À¸Ä¿Â¼
+LZSSÑ¹ËõËã·¨C++Ô´´úÂë
+02-07
+LZSSÑ¹ËõËã·¨µÄC++Ô´Âë£¬ÒÑ¾­·â×°³Éclass
+ÂÛÎÄÑÐ¾¿-Ò»ÖÖ»ùÓÚLEDÏÔÊ¾ÏµÍ³µÄLZSS¸Ä½øËã·¨ .pdf
+08-14
+Ò»ÖÖ»ùÓÚLEDÏÔÊ¾ÏµÍ³µÄLZSS¸Ä½øËã·¨£¬³ÂÇ¿£¬ÂÞºì£¬±¾ÎÄÔÚLZSSÎÞËðÑ¹ËõËã·¨µÄ»ù´¡ÉÏ£¬Ìá³öÁËÒ»ÖÖ¸ü¼ÓÊÊºÏLEDÏÔÊ¾ÏµÍ³µÄ¸Ä½øÐÍÑ¹ËõËã·¨¡£Ëã·¨Í¨¹ýÕûÌåÑ¹Ëõ·Ö¶Î½âÑ¹µÄ·½Ê½£¬ÔÚÃ»ÓÐËðÊ§??
+5 ÌõÆÀÂÛ
+tangmiyu1987
+ÈÈÆÀ
+ÓÐÒ»ÖÖÈÎÒâÊý¾ÝÎÞËðÑ¹ËõËã·¨
+Ð´ÆÀÂÛ
+LZSSËã·¨_lzss±àÂë_lightdµÄ²©¿Í
+4-25
+LZSSËã·¨ ×òÌì¿´ÁËÏÂLZSS.C,¾ÍÊÇÄÇ¸ö4/6/1989 Haruhiko OkumuraµÄ¾­µä´úÂë¡£ ºÜ¾ÃÃ»ÓÐÑÐ¾¿Ëã·¨ÁË,ÓÖÃ»ÓÐÏêÏ¸µÄÃèÊö,Ö»ÄÜ´Ó´úÂëºÍ×¢ÊÍÀïÃæÈ¥Àí½â¡£»¹Õæ»¨ÁËÎÒ²»ÉÙÊ±¼ä¡£ Ê×ÏÈ½²½âÑ¹,LZSSµÄ±àÂëÊÇ1 byteµÄflag,´ÓµÍµ½¸ß,Èç¹ûbit=1...
+LZSSËã·¨(CÓïÑÔ)_¾ÆÓë»¨ÉúÃ×µÄ²©¿Í
+4-22
+LZSSËã·¨(CÓïÑÔ) #include<stdio.h>#include<stdlib.h>#include<string.h>#include<ctype.h>#defineN 4096#defineF 18#defineTHRESHOLD 2#defineNIL Nunsignedlonginttextsize=0,codesize=0,printcount=0;unsignedchartext_buf[N+...
+compc++.zip_lzari_rle8_Ñ¹ËõËã·¨_Í¼ÏñÀí½â_ÎÞËðÑ¹Ëõ
+07-14
+Õâ¸ö´úÂë°üÖÐ°üº¬ÁËÒ»Ð©±È½ÏÍ¨ÓÃµÄÎÞËðÑ¹ËõËã·¨µÄÔ´´úÂë£¬Èç¹ûÄãÏëÉîÈëÀí½âÒ»Ð©Í¼Ïñ¸ñÊ½£¬ÄÇÃ´¶Á¶®ÕâÐ©´úÂë»á¶ÔÄãÓÐºÜ´ó°ïÖú£¬ÕâÊÇ»ù´¡¡££¨°üÖÐ°üÀ¨µÄËã·¨ÓÐ£ºlzari¡¢lzhuf¡¢lzss¡¢lzw¡¢lz77¡¢huffman¡¢rle8¡¢rle16£©¡£¹¤¾ß£ºÍ¨ÓÃC ¡£
+ÊµÏÖLZARIÑ¹ËõËã·¨µÄC++Àà
+03-15
+ÄÚÈÝË÷Òý:VC/C++Ô´Âë,Ëã·¨Ïà¹Ø,Ñ¹Ëõ,Ëã·¨,LZARI¡¡¡¡Ò»¸ö»ùÓÚLZARIËã·¨µÄÊý¾ÝÑ¹ËõÀà¡ª¡ªlzari.c£¬ËüÌá¹©ÁËlzariÑ¹ËõËã·¨µÄºËÐÄÊµÏÖ£¬±¾Ëã·¨ÊÇÔÚ1989Äê7ÔÂ4ÈÕÓÃCÓïÑÔÊµÏÖ£¬µ«ÊÇÒ»Ð©È«¾Ö»ò¾²Ì¬µÄ±äÁ¿ÔÚMFC»·¾³ÏÂÊ¹ÓÃºÜ²»·½±ã£¬ÕâÒ²ÊÇÎªºÎ°ÑËü±ä³ÉÒ»¸öC++ÀàµÄÔ­Òò£¬Ê¹ËüÄÜ¹»·½±ãµÄÑ¹ËõºÍ½âÑ¹Ëõ¡£
+ÊµÏÖLZW×ÖµäÑ¹ËõËã·¨_ÃÎÔ¶ÐÇ·«µÄ²©¿Í
+4-14
+LZSSËã·¨»ù±¾Á÷³Ì: 1.´Óµ±Ç°Ñ¹ËõÎ»ÖÃ¿ªÊ¼,¿¼²ìÎ´±àÂëµÄ×Ö·û,²¢ÊÔÍ¼ÔÚ»¬¶¯´°¿ÚÖÐÕÒ³ö×î³¤µÄÆ¥Åä×Ö·û´®,Èç¹ûÆ¥Åä×Ö·û´®³¤¶È´óÓÚµÈÓÚ×îÐ¡Æ¥Åä´®³¤¶È,Ôò¾öÐÄ²½Öè2,·ñÔò½øÐÐ²½Öè3; 2.Êä³öÖ¸Õë¶þÔª×é(off,len)¡£ÆäÖÐoffÎª´°¿ÚÆ¥Åä×Ö·û´®Ïà¶Ô...
+¸Ä½øµÄLZSSÑ¹ËõËã·¨_happylife1527µÄ²©¿Í
+4-21
+Ñ¡ÔñÒÔÎÄ±¾ÎÄ¼þ½øÐÐÑ¹Ëõ,Ô´ÎÄ¼þ´óÐ¡Îª1.5 Mb,²ÉÓÃ¸Ä½øLZSSËã·¨Ñ¹ËõºóÊý¾ÝÁ¿Ô¼Îª0.23Mb(¶ÔÓÚ²»Í¬µÄÎÄ¼þÓÉÓÚÆäÊý¾ÝµÄ¹æÂÉ²»Ò»,Ñ¹ËõµÄ±ÈÀý²»Í¬,¼û±í3),Êý¾ÝµÄ´«ÊäÊ±¼ä¿ÉËõ¶ÌÖÁÎ´Ñ¹ËõÇ°µÄl/6×óÓÒ,ÆäÓÐÐ§ÐÔºÍÎÈ¶¨ÐÔ¾ù¼ºµÃµ½ÑéÖ¤¡£Ñ¡ÔñÒ»...
+
+
+³£¼ûÑ¹ËõËã·¨Ô´Âëlzw lzss LZHUF LZARI
+02-02
+³£¼ûÑ¹ËõËã·¨µÄÔ´ÎÄ¼þ£¬Èçlzw lzss LZHUF LZARI
+¡¾ÔÆ¼ÆËãÓë´óÊý¾Ý¼¼Êõ¡¿Êý¾Ý±àÂëLZSSËã·¨¡¢SnappyÑ¹Ëõ¿â¼°·Ö²¼Ê½Í¨ÐÅÏµÍ³µÄ½²½â£¨Í¼ÎÄ½âÊÍ ³¬ÏêÏ¸£©
+×îÐÂ·¢²¼
+showswollerµÄ²©¿Í
+ 504
+¡¾ÔÆ¼ÆËãÓë´óÊý¾Ý¼¼Êõ¡¿Êý¾Ý±àÂëLZSSËã·¨¡¢SnappyÑ¹Ëõ¿â¼°·Ö²¼Ê½Í¨ÐÅÏµÍ³µÄ½²½â£¨Í¼ÎÄ½âÊÍ ³¬ÏêÏ¸£©
+LZSSËã·¨Ñ§Ï°
+@evan_wu163
+ 538
+Ñ¹ËõÊý¾Ý·½·¨LZSS(Lempel-ziv-storer-szymanski)ÊÇÒ»ÖÖÎÞËðÊý¾ÝÑ¹Ëõ·½·¨£¬ÊÇÒ»ÖÖ×Öµä±àÂë¼¼Êõ¡£ÓëÊÔÍ¼¼õÉÙ±êÊ¾·ûºÅËùÐèÆ½¾ù±ÈÌØÊýµÄ»ô·òÂü±àÂë²»Í¬£¬LZSS³¢ÊÔÓÃ¶ÔÍ¬Ò»×Ö·û´®µÄ×ÖµäÎ»ÖÃµÄÒýÓÃÀ´Ìæ´ú·ûºÅ×Ö·û´®¡£ ......
+¡¾°¸Àý¡¿ Ñ¹ËõËã·¨ ¡ª¡ª LZ Ëã·¨
+Ãú¤Î¥Ö¥í¥²
+ 2669
+Ò»ÖÖÓÐÈ¤µÄÑ¹ËõËã·¨¡£
+LZSS Ñ¹ËõËã·¨ÔÚ µ¥Æ¬»úÉÏ £¨±Èlz77/lz78/lzw ¸üÇ¿)£¬ºÃÒÆÖ²
+ 890
+http://wenku.baidu.com/view/5f654666f5335a8102d2204f.html LZSSÊý¾ÝÑ¹Ëõ¼¼ÊõÔÚµ¥Æ¬»úÏµÍ³ÉÏµÄÓ¦ÓÃÑÐ¾¿_°Ù¶ÈÎÄ¿â   lzssÑ¹Ëõ/½âÑ¹Ëã·¨ http://download.csdn.net/download/pandaguy623/4321284
+lzssÑ¹ËõËã·¨
+05-01
+Ò»¸öÍêÍêÈ«È«µÄlzssÑ¹ËõËã·¨Ô´¹¤³Ì
+Ò×ÓïÑÔÔ´ÂëÒ×ÓïÑÔlzssÑ¹ËõËã·¨Ô´Âë.rar
+02-17
+Ò×ÓïÑÔÔ´ÂëÒ×ÓïÑÔlzssÑ¹ËõËã·¨Ô´Âë.rar
+Ò×ÓïÑÔlzssÑ¹ËõËã·¨
+07-21
+Ò×ÓïÑÔlzssÑ¹ËõËã·¨Ô´Âë,lzssÑ¹ËõËã·¨,lzssÑ¹Ëõ,lzss½âÑ¹,int,del
+LZSSÑ¹ËõËã·¨
+ÓÚÎÞÉù´¦
+ 1Íò+
+¡¡¡¡½ñÌìÍê³ÉÁËÒ»Ì×¼òµ¥µÄLZSSËã·¨´úÂë£¬³õ²½²âÊÔÁËÒ»ÏÂ£¨°üÀ¨¼ÆËãCRC32µÄÊ±¼ä£©£¬½á¹ûÈçÏÂ£º ÎÄ¼þÀàÐÍ£ºWordµÄDOCÎÄµµ ÎÄ¼þ¸öÊý£º217 ÎÄ¼þ×Ü×Ö½ÚÊý£º9,196,346×Ö½Ú£¨8.77MB) Æ½¾ùÑ¹ËõÂÊ£º70%£¨Ñ¹Ëõºó³¤¶ÈÊÇÔ­³¤¶ÈµÄ30%£© Ñ¹ËõÊ±¼ä£º8766ºÁÃë£¨´óÔ¼ÊÇÃ¿Ãë1MB£© ½âÑ¹Ê±¼ä£º795ºÁÃë£¨´óÔ¼ÊÇÃ¿Ãë11MB
+Ñ§Ï°LZ77ÓëLZSSËã·¨µÄÓÐ¹Ø×ÊÁÏ
+artmcuµÄ×¨À¸
+ 9541
+µÚÎå½Ú   ´Êµä±àÂë ÓÐÐí¶à³¡ºÏ£¬¿ªÊ¼Ê±²»ÖªµÀÒª±àÂëÊý¾ÝµÄÍ³¼ÆÌØÐÔ£¬Ò²²»Ò»¶¨ÔÊÐíÎÒÃÇÊÂÏÈÖªµÀËüÃÇµÄÍ³¼ÆÌØÐÔ¡£Òò´Ë£¬ÈËÃÇÌá³öÁËÐíÐí¶à¶àµÄÊý¾ÝÑ¹Ëõ·½·¨£¬ÆóÍ¼ÓÃÀ´¶ÔÕâÐ©Êý¾Ý½øÐÐÑ¹Ëõ±àÂë£¬ÔÚÊµ¼Ê±àÂë¹ý³ÌÖÐÒÔ¾¡¿ÉÄÜ»ñµÃ×î´óµÄÑ¹Ëõ±È¡£ÕâÐ©¼¼ÊõÍ³³ÆÎªÍ¨ÓÃ±àÂë¼¼Êõ¡£´Êµä±àÂë(Dictionary Encoding)¼¼Êõ¾ÍÊÇÊôÓÚÕâÒ»Àà£¬ÕâÖÖ¼¼ÊõÊôÓÚÎÞËðÑ¹Ëõ¼¼Êõ¡£ Ò»£®´Êµä±àÂë·ÖÀà ´Êµä±àÂëµÄ¸ù¾ÝÊÇÊý¾Ý±¾Éí°üº¬
+ÉîÈëÀí½âÊý¾ÝÑ¹ËõÓëÖØ¸´Êý¾ÝÉ¾³ý
+ÈÈÃÅÍÆ¼ö
+Áõ°®¹óµÄ×¨À¸
+ 2Íò+
+Êý¾ÝÑ¹ËõÓëÖØ¸´Êý¾ÝÉ¾³ýÁ½ÖÖ¼¼ÊõÓÐºÎÇø±ðÓëÁªÏµÄØ£¿Êµ¼ÊÖÐÓÖ¸ÃÈçºÎÕýÈ·Ó¦ÓÃÄØ£¿±ÊÕßÖ®Ç°¶ÔÊý¾ÝÑ¹ËõÔ­ÀíºÍ¼¼ÊõÃ»ÓÐÑÐ¾¿£¬Òò´Ë×öÁËµã¹¦¿Î£¬²éÔÄÕûÀíÁËÏà¹Ø×ÊÁÏ£¬²¢ÓëÖØ¸´Êý¾ÝÉ¾³ý¼¼Êõ½øÐÐ¶Ô±È·ÖÎö¡£
+ÂÛÎÄÑÐ¾¿-LZ77Ñ¹ËõËã·¨¼°Æä¸Ä½ø .pdf
+08-22
+LZ77Ñ¹ËõËã·¨¼°Æä¸Ä½ø£¬Àî·É£¬£¬Ëæ×ÅÐÅÏ¢Á¿µÄ²»¶ÏÔö¼Ó£¬Ó¦ÓÃÑ¹ËõËã·¨¶ÔÐÅÏ¢½øÐÐÑ¹ËõÏÔµÃÔ½À´Ô½ÖØÒª¡£±¾ÎÄ½éÉÜÁËLZ77Ñ¹ËõËã·¨¼°Æä×îÖøÃûµÄÊµÓÃËã·¨LZSS¡£ÔÚ´Ë»ù´¡ÉÏ?
+¡¾LeetCode¡¿isPalindrome »ØÎÄ´®£¨JAVA£©
+¿¨ÓÈµÄÐ¡»Æ¼¦µÄ²©¿Í
+ 799
+¸ø¶¨Ò»¸ö×Ö·û´®£¬ÑéÖ¤ËüÊÇ·ñÊÇ»ØÎÄ´®£¬Ö»¿¼ÂÇ×ÖÄ¸ºÍÊý×Ö×Ö·û£¬¿ÉÒÔºöÂÔ×ÖÄ¸µÄ´óÐ¡Ð´¡£ ËµÃ÷£º±¾ÌâÖÐ£¬ÎÒÃÇ½«¿Õ×Ö·û´®¶¨ÒåÎªÓÐÐ§µÄ»ØÎÄ´®¡£ Ê¾Àý 1: ÊäÈë: ¡°A man, a plan, a canal: Panama¡± Êä³ö: true Ê¾Àý 2: ÊäÈë: ¡°race a car¡± Êä³ö: false class Solution { public boolean isPalindrome(String s) { //½«Ô­×Ö·û´®×ª»»Îª×Ö·ûÊý×é²¢ÅÐ¶ÏÊÇ·ñÎªÊý×Ö×Ö·û»òÕß×ÖÄ¸ºó //Í³Ò»×ª³É
+ZIPÑ¹ËõËã·¨ÏêÏ¸·ÖÎö¼°½âÑ¹ÊµÀý
+YiRong
+ 4716
+ÉÙÅ®ÏµÁÐ£ºÝÑ¹ÈÀæÉ³×ÓÐ´Õæ¡£ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é¿´´óÍ¼ ²é
+LZ77Ñ¹ËõËã·¨±àÂëÔ­ÀíÏê½â(½áºÏÍ¼Æ¬ºÍ¼òµ¥´úÂë)
+weixin_30871701µÄ²©¿Í
+ 958
+Ç°ÑÔ ¡¡¡¡LZ77Ëã·¨ÊÇÎÞËðÑ¹ËõËã·¨£¬ÓÉÒÔÉ«ÁÐÈËAbraham Lempel·¢±íÓÚ1977Äê¡£LZ77ÊÇµäÐÍµÄ»ùÓÚ×ÖµäµÄÑ¹ËõËã·¨£¬ÏÖÔÚºÜ¶àÑ¹Ëõ¼¼Êõ¶¼ÊÇ»ùÓÚLZ77¡£¼øÓÚÆäÔÚÊý¾ÝÑ¹ËõÁìÓòµÄµØÎ»£¬±¾ÎÄ½«½áºÏÍ¼Æ¬ºÍÔ´ÂëÏêÏ¸½éÉÜÆäÔ­Àí¡£ Ô­Àí½éÉÜ£º ¡¡¡¡Ê×ÏÈ½éÉÜ¼¸¸ö×¨ÒµÊõÓï¡£ ¡¡¡¡1.lookahead buffer(²»ÖªµÀÔõÃ´ÓÃÖÐÎÄ±íÊö£¬ÔÝÊ±³ÆÎª´ý±àÂëÇø): ¡¡¡¡µÈ´ý±àÂëµÄÇøÓò...
+¡°Ïà¹ØÍÆ¼ö¡±¶ÔÄãÓÐ°ïÖúÃ´£¿
+
+·Ç³£Ã»°ïÖú
+
+Ã»°ïÖú
+
+Ò»°ã
+
+ÓÐ°ïÖú
+
+·Ç³£ÓÐ°ïÖú
+¹ØÓÚÎÒÃÇ
+ÕÐÏÍÄÉÊ¿
+ÉÌÎñºÏ×÷
+Ñ°Çó±¨µÀ
+
+400-660-0108
+
+kefu@csdn.net
+
+ÔÚÏß¿Í·þ
+¹¤×÷Ê±¼ä 8:30-22:00
+¹«°²±¸°¸ºÅ11010502030143
+¾©ICP±¸19004658ºÅ
+¾©ÍøÎÄ¡²2020¡³1039-165ºÅ
+¾­ÓªÐÔÍøÕ¾±¸°¸ÐÅÏ¢
+±±¾©»¥ÁªÍøÎ¥·¨ºÍ²»Á¼ÐÅÏ¢¾Ù±¨ÖÐÐÄ
+¼Ò³¤¼à»¤
+ÍøÂç110±¨¾¯·þÎñ
+ÖÐ¹ú»¥ÁªÍø¾Ù±¨ÖÐÐÄ
+ChromeÉÌµêÏÂÔØ
+ÕËºÅ¹ÜÀí¹æ·¶
+°æÈ¨ÓëÃâÔðÉùÃ÷
+°æÈ¨ÉêËß
+³ö°æÎïÐí¿ÉÖ¤
+ÓªÒµÖ´ÕÕ
+?1999-2023±±¾©´´ÐÂÀÖÖªÍøÂç¼¼ÊõÓÐÏÞ¹«Ë¾
+
+½ðÐ¡Í¥
+ÂëÁä7Äê
+ ÔÝÎÞÈÏÖ¤
+40
+Ô­´´
+4Íò+
+ÖÜÅÅÃû
+10Íò+
+×ÜÅÅÃû
+19Íò+
+·ÃÎÊ
+
+µÈ¼¶
+2724
+»ý·Ö
+242
+·ÛË¿
+381
+»ñÔÞ
+104
+ÆÀÂÛ
+1627
+ÊÕ²Ø
+·ÖÏíÑ§Í½
+Ç©µ½ÐÂÐã
+Ç©µ½´ïÈË
+Ç©µ½ÍõÕß
+³ÖÐø´´×÷
+Ô­Á¦Ì½Ë÷
+±Ê¸û²»ê¡
+´´×÷ÄÜÊÖ
+Ñ§Ï°Á¦
+¼¼ÊõÈ¦ÈÏÖ¤
+Ô­Á¦ÐÂÈË
+ÔÄ¶ÁÕßÑ«ÕÂ
+Ë½ÐÅ
+¹Ø×¢
+ËÑ²©Ö÷ÎÄÕÂ
+
+ÈÈÃÅÎÄÕÂ
+¾À´íÂë×¨Ìâ¡ª¡ªÏßÐÔ·Ö×éÂë£¨1£©  14815
+¾À´íÂë×¨Ìâ¡ª¡ªÏßÐÔ·Ö×éÂëµÄ¾À´íÄÜÁ¦  12084
+STM32Ê¹ÓÃSRAMÀ©Õ¹ÄÚ´æ  11906
+ÎÞËðÑ¹ËõËã·¨×¨Ìâ¡ª¡ªÎÞËðÑ¹ËõËã·¨½éÉÜ  10083
+emWin×¨Ìâ¡ª¡ªemWin¼ò½é¼°Ä£ÄâÆ÷µÄÊ¹ÓÃ  9997
+×îÐÂÆÀÂÛ
+ÎÞËðÑ¹ËõËã·¨×¨Ìâ¡ª¡ªminiLZO
+Ð¡Â¹²»°®linux: Ð»Ð»£¬¾ÈÎÒÓÚË®»ð£¡
+
+¾À´íÂë×¨Ìâ¡ª¡ªÏßÐÔ·Ö×éÂë£¨1£©
+ÍÛÄãÊÇÉñÏÉ°É: 65¹ýÁË ·Ç³£¸ÐÐ»±íÇé°ü
+
+¡¾ucos¡¿ucosÒÆÖ²µ½s3c2440
+Ð¡Ê±ºòÍ¦²ËØ¼: 2440µÄÆ¬ÄÚRAMÖ»ÓÐ4k£¬¶ÔUCOS3²»Ì«¹»£¬ÇëÎÊÖªµÀÈçºÎÉèÖÃÊ¹ÓÃÆ¬ÍâRAMÂð
+
+¾À´íÂë×¨Ìâ¡ª¡ªÏßÐÔ·Ö×éÂë£¨1£©
+ÍÛÄãÊÇÉñÏÉ°É: ÎÒ²Á ÄãÕæÊÇÎÒµþ
+
+CMDÖ´ÐÐÃüÁîÐÐÊ±¿¨×¡µÄÎÊÌâ
+Shark_2021: Ì«ÓÐÓÃÁË£¬Ö®Ç°¾­³£¿¨×¡ Òª°´»Ø³µ²ÅÐÐ Ò»Ö±²»¶®Ê²Ã´Ô­Òò
+
+ÄúÔ¸ÒâÏòÅóÓÑÍÆ¼ö¡°²©¿ÍÏêÇéÒ³¡±Âð£¿
+
+Ç¿ÁÒ²»ÍÆ¼ö
+
+²»ÍÆ¼ö
+
+Ò»°ã°ã
+
+ÍÆ¼ö
+
+Ç¿ÁÒÍÆ¼ö
+×îÐÂÎÄÕÂ
+Ò»ÖÖÍ¨¹ý´Û¸ÄÌØ¶¨´úÂëÊý¾ÝÐÞ¸´Ç¶ÈëÊ½²úÆ·BUGµÄ·½·¨
+¡¾BLE¡¿HIDÉè±¸µÄÊµÏÖ£¨À¶ÑÀ×ÔÅÄ¸Ë¡¢À¶ÑÀ¼üÅÌ¡¢À¶ÑÀÊó±ê¡¢HID¸´ºÏÉè±¸£©
+¡¾USB¡¿STM32Ä£ÄâUÅÌ½øÐÐIAP³ÌÐò¸üÐÂ
+2022Äê2Æª2021Äê1Æª2020Äê38Æª2019Äê5Æª2018Äê1Æª
+
+
+Ä¿Â¼
+Ò»¡¢Ç°ÑÔ
+¶þ¡¢LZSSËã·¨ÊµÏÖ
+Èý¡¢ÐÔÄÜ·ÖÎö
+ËÄ¡¢×Ü½á
+
+
+·ÖÀà×¨À¸
+
+STM32
+10Æª
+
+BLE
+1Æª
+
+ÎÞËðÑ¹ËõËã·¨×¨Ìâ
+4Æª
+
+USB
+2Æª
+
+RTOS
+1Æª
+
+JZ2440Âã»úÊµÑé
+8Æª
+
+Ëæ»úÊý
+2Æª
+
+CÓïÑÔ
+1Æª
+
+51µ¥Æ¬»ú
+
+FPGA
+2Æª
+
+Êý¾Ý¾À¼ì´íËã·¨
+4Æª
+
+QT
+1Æª
+
+ÉÁ´æ
+2Æª
+
+NES×¨Ìâ
+5Æª
+
+emWin×¨Ìâ
+1Æª
+
+
+
+
+¾Ù±ÿ

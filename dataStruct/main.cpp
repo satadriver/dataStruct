@@ -65,6 +65,9 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	int ret = 0;
+
+	test_mylzss();
+
 	floydTest();
 
 	aesTest();
@@ -200,9 +203,7 @@ int main(int argc, char** argv)
 	//_getch();
 	//testrandom();
 
-	//test_lgzz();
 
-	//lzss_test();
 
 // 	int result = 0;
 // 	char* s = (char*)"assaasssas";
