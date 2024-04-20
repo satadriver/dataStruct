@@ -1,2 +1,6 @@
-﻿  myLzss.cpp
+﻿  main.cpp
+C:\Users\ljg\dataStruct\dataStruct\main.cpp(399,7): warning C4101: “szinfo”: 未引用的局部变量
+  RoundRobin.cpp
+  正在生成代码...
+Debug\bbst.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
   dataStruct.vcxproj -> C:\Users\ljg\dataStruct\Debug\dataStruct.exe

@@ -177,6 +177,7 @@
     <ClCompile Include="random.cpp" />
     <ClCompile Include="rc4.cpp" />
     <ClCompile Include="recursion.cpp" />
+    <ClCompile Include="RoundRobin.cpp" />
     <ClCompile Include="rsa.cpp" />
     <ClCompile Include="searchTree.cpp" />
     <ClCompile Include="SelectionSort.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="random.h" />
     <ClInclude Include="rc4.h" />
     <ClInclude Include="recursion.h" />
+    <ClInclude Include="RoundRobin.h" />
     <ClInclude Include="rsa.h" />
     <ClInclude Include="searchTree.h" />
     <ClInclude Include="SelectionSort.h" />

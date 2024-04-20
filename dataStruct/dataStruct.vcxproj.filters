@@ -129,6 +129,9 @@
     <ClCompile Include="floyd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="RoundRobin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bubbleSort.h">
@@ -240,6 +243,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="floyd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RoundRobin.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

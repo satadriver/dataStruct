@@ -42,6 +42,7 @@
 #include "des.h"
 #include "aes.h"
 #include "floyd.h"
+#include "RoundRobin.h"
 
 using namespace std;
 
@@ -65,6 +66,8 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	int ret = 0;
+	 RoundRobin();
+	 matrixMultiple();
 
 	test_mylzss();
 
